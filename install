@@ -1,0 +1,72 @@
+#!/bin/bash
+#######################################################
+# HocVPS Script Installer v1.2
+# To install HocVPS Script type: 
+# curl -sO https://hocvps.com/install && bash install
+#######################################################
+
+if [ $(id -u) != "0" ]; then
+    echo "You need to be root to perform this command. Run \"sudo su\" to become root!"
+    exit
+fi
+if [ -f /var/cpanel/cpanel.config ]; then
+clear
+echo "Your server installed WHM/Cpanel, please reinstall to use HocVPS Script."
+exit
+fi
+
+if [ -f /etc/psa/.psa.shadow ]; then
+clear
+echo "Your server installed Plesk, please reinstall to use HocVPS Script."
+exit
+fi
+
+if [ -f /etc/init.d/directadmin ]; then
+clear
+echo "Your server installed DirectAdmin, please reinstall to use HocVPS Script."
+exit
+fi
+
+if [ -f /etc/init.d/webmin ]; then
+clear
+echo "Your server installed Webmin, please reinstall to use HocVPS Script."
+exit
+fi
+
+if [[ -z "$(cat /etc/resolv.conf)" ]]; then
+	echo ""
+	echo "/etc/resolv.conf is empty. No nameserver resolvers detected !! "
+	echo "Please configure your /etc/resolv.conf correctly or you will not"
+	echo "be able to use the internet or download from your server."
+	echo "aborting script... please re-run install"
+	echo ""
+	exit
+fi
+
+centos_version=$(rpm -E %centos)
+if [ "$centos_version" != "6" ] && [ "$centos_version" != "7" ]; then
+	echo "HocVPS Script is only compatible with CentOS 6 or CentOS 7"
+	echo "aborting script..."
+	exit
+fi
+
+if [ -f /etc/hocvps/scripts.conf ]; then
+	echo "========================================================================="
+	echo "Server/VPS cua ban da cai san HocVPS Script"
+	echo "Hay su dung lenh hocvps de truy cap menu quan ly"
+	echo "Chao tam biet !"
+	echo "========================================================================="
+exit
+fi
+
+rm -f install*
+
+cd /root/
+
+rm -f install*
+
+if [ "$1" = "wordpress" ]; then
+	curl -sO https://hocvps.com/scripts/$centos_version/install && bash install wordpress
+else
+	curl -sO https://hocvps.com/scripts/$centos_version/install && bash install
+fi

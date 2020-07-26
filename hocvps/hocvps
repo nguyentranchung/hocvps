@@ -1,0 +1,41 @@
+#!/bin/sh
+
+. /etc/hocvps/scripts.conf
+
+clear
+prompt="Nhap vao lua chon menu cua ban:"
+options=("Liet Ke Domain" "Them Domain" "Xoa Domain" "Sao Luu Code" "Sao Luu Data" "Tu Dong Sao Luu" "Tat Tu Dong Sao Luu" "Tao Database" "Xoa Database" "Doi Pass VPS" "Doi Port Admin" "Them Park Domain" "Them Redirect Domain" "Phan Quyen Webserver" "Nang Cap Server") # End Options
+
+printf "=========================================================================\n"
+printf "               HocVPS Script v$hocvps_version - http://hocvps.com/script/ \n"
+printf "=========================================================================\n"
+printf "                             HocVPS Menu\n"
+printf "=========================================================================\n"
+PS3="
+$prompt"
+select opt in "${options[@]}" "Thoat"; do 
+
+    case "$REPLY" in
+	    1 ) /etc/hocvps/menu/liet-ke-domain;;
+	    2 ) /etc/hocvps/menu/them-domain;;
+	    3 ) /etc/hocvps/menu/xoa-domain;;
+	    4 ) /etc/hocvps/menu/sao-luu-code;;
+	    5 ) /etc/hocvps/menu/sao-luu-data;;
+	    6 ) /etc/hocvps/menu/tu-dong-sao-luu;;
+	    7 ) /etc/hocvps/menu/tat-tu-dong-sao-luu;;
+	    8 ) /etc/hocvps/menu/tao-database;;
+	    9 ) /etc/hocvps/menu/xoa-database;;
+	    10 ) /etc/hocvps/menu/doi-pass-vps;;
+	    11 ) /etc/hocvps/menu/doi-port-admin;;
+	    12 ) /etc/hocvps/menu/park-domain;;
+	    13 ) /etc/hocvps/menu/forward-domain;;
+	    14 ) /etc/hocvps/menu/phan-quyen-webserver;;
+	    15 ) /etc/hocvps/menu/nang-cap-server;;
+	    # End Menu
+
+	    $(( ${#options[@]}+1 )) ) printf "\nChao tam biet!\nHen gap lai ban o http://hocvps.com/\n\n"; break;;
+	    *) echo "Ban nhap sai, vui long nhap theo so thu tu tren danh sach";continue;;
+
+    esac
+
+done
