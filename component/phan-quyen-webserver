@@ -1,0 +1,17 @@
+#!/bin/bash
+
+. /etc/hocvps/scripts.conf
+
+printf "=========================================================================\n"
+printf "                          Phan Quyen WebServer\n"
+printf "=========================================================================\n"
+printf "Moi khi upload file bang sFTP, ban can phan quyen lai cho Nginx webserver\n"
+printf "o thu muc /home/ de dam bao website hoat dong binh thuong, co the upload,\n"
+printf "cai dat duoc theme/plugin.\n\n"
+
+chown -R nginx:nginx /home/*/public_html
+chown -R nginx:nginx /home/*/private_html
+chown -R nginx:nginx /var/lib/php
+echo -n "Da phan quyen lai cho webserver!"
+
+exit

@@ -1,0 +1,52 @@
+#!/bin/bash
+
+. /etc/hocvps/scripts.conf
+
+saoluucode()
+{
+	echo "Dang sao luu $website, vui long doi...."
+	
+	mkdir -p /home/$server_name/private_html/backup/$website/
+	cd /home/$website/public_html/
+	tar czf /home/$server_name/private_html/backup/$website/$website.tar.gz .
+
+	echo "Sao luu website $website thanh cong..."
+	echo "Duong dan file backup: /home/$server_name/private_html/backup/$website/$website.tar.gz"
+	echo "Link download: http://$server_name:$admin_port/backup/$website/$website.tar.gz"
+}
+
+printf "=========================================================================\n"
+printf "                             Sao Luu Code\n"
+printf "=========================================================================\n"
+echo -n "Nhap vao ten website ban muon sao luu toan bo code roi an [ENTER]: " 
+read website
+
+if [ -d /home/$website/public_html/ ]; then
+	if [ -z "$(ls -A /home/$website/public_html/)" ]; then
+		echo "$website khong co du lieu"
+		echo "Chao tam biet...!"
+		exit
+	else
+		echo "Da phat hien thay $website tren server"
+		
+		if [ -f /home/$server_name/private_html/backup/$website/$website.tar.gz ]; then
+		read -r -p "Phat hien thay file sao luu cu, xoa no va tao sao luu moi ? [y/N] " response
+		case $response in
+		    [yY][eE][sS]|[yY]) 
+		    	rm -rf /home/$server_name/private_html/backup/$website/
+	
+			saoluucode
+		        ;;
+		    *)
+		        echo "Chao tam biet....!"
+		        ;;
+		esac
+		else
+			saoluucode
+		fi
+	fi
+else
+	echo "Khong tim thay $website"
+	echo "Chao tam biet...!"
+	exit
+fi

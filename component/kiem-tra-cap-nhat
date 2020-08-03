@@ -1,0 +1,31 @@
+#!/bin/bash
+
+. /etc/hocvps/scripts.conf
+
+#Installed version
+nginx_version=`rpm -qa nginx | awk -F[-] '{print $2}'`
+php_version=`rpm -qa php-fpm | awk -F[-] '{print $3}'`
+mariadb_version=`rpm -qa MariaDB-server | awk -F[-] '{print $3}'`
+
+#Check updates
+nginx_version_current=`yum info nginx | grep 'Version     :' | sed -n '2p' | awk -F[:] '{print $2}'`
+if [ "$nginx_version_current" = "" ]; then
+	nginx_version_current=`yum info nginx | grep 'Version     :' | sed -n '1p' | awk -F[:] '{print $2}'`
+fi
+php_version_current=`yum info php-fpm | grep 'Version     :' | sed -n '2p' | awk -F[:] '{print $2}'`
+if [ "$php_version_current" = "" ]; then
+	php_version_current=`yum info php-fpm | grep 'Version     :' | sed -n '1p' | awk -F[:] '{print $2}'`
+fi
+mariadb_version_current=`yum info mariadb | grep 'Version     :' | sed -n '2p' | awk -F[:] '{print $2}'`
+if [ "$mariadb_version_current" = "" ]; then
+	mariadb_version_current=`yum info MariaDB-server | grep 'Version     :' | sed -n '1p' | awk -F[:] '{print $2}'`
+fi
+
+printf "=========================================================================\n"
+printf "                            Kiem Tra Cap Nhat\n"
+printf "=========================================================================\n"
+printf "Phien ban moi nhat:\n"
+printf "+ Nginx: $nginx_version_current (ban dang su dung $nginx_version)\n"
+printf "+ PHP: $php_version_current (ban dang su dung $php_version)\n"
+printf "+ MariaDB: $mariadb_version_current (ban dang su dung $mariadb_version)\n"
+exit

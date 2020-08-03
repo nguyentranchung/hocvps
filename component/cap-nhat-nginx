@@ -1,0 +1,7 @@
+#!/bin/bash
+
+. /etc/hocvps/scripts.conf
+
+printf "Dang cap nhat Nginx...\n\n"
+yum -y upgrade nginx
+exit

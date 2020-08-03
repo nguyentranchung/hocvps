@@ -1,0 +1,7 @@
+#!/bin/bash
+
+. /etc/hocvps/scripts.conf
+
+printf "Dang cap nhat MariaDB...\n\n"
+yum -y upgrade MariaDB-server MariaDB-client
+exit

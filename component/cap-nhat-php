@@ -1,0 +1,9 @@
+#!/bin/bash
+
+. /etc/hocvps/scripts.conf
+
+printf "Dang cap nhat PHP...\n\n"
+php_version=`rpm -qa php-fpm | awk -F[-] '{print $3}'`
+yum -y upgrade php-*
+
+exit

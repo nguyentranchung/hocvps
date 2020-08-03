@@ -1,0 +1,27 @@
+#!/bin/bash
+
+. /etc/hocvps/scripts.conf
+
+prompt="Nhap vao lua chon cua ban: "
+options=("Kiem tra cap nhat" "Cap nhat Nginx" "Cap nhat PHP" "Cap nhat MariaDB")
+printf "=========================================================================\n"
+printf "                           Nang cap server\n"
+printf "=========================================================================\n"
+printf "Khi co phien ban moi, ban co the cap nhat Nginx, PHP, MariaDB cho server.\n"
+printf "=========================================================================\n"
+PS3="
+$prompt"
+select opt in "${options[@]}" "Thoat"; do 
+
+    case "$REPLY" in
+	    1 ) /etc/hocvps/menu/kiem-tra-cap-nhat;;
+	    2 ) /etc/hocvps/menu/cap-nhat-nginx;;
+	    3 ) /etc/hocvps/menu/cap-nhat-php;;
+	    4 ) /etc/hocvps/menu/cap-nhat-mariadb;;
+
+	    $(( ${#options[@]}+1 )) ) printf "\nChao tam biet....!\n"; break;;
+	    *) echo "Ban nhap sai, vui long nhap theo so thu tu tren danh sach";continue;;
+
+    esac
+
+done

@@ -1,0 +1,22 @@
+#!/bin/sh
+
+. /etc/hocvps/scripts.conf
+printf "=========================================================================\n"
+printf "                         Tat Tu Dong Sao Luu Data\n"
+printf "=========================================================================\n"
+echo -n "Nhap vao ten data ban muon TAT tu dong sao luu roi an [ENTER]: " 
+read dataname
+
+if [ -f /bin/stbackupdb-$dataname ]; then
+echo "Da tim thay $dataname trong danh sach tu dong sao luu"
+echo "Bat dau go bo ra khoi danh sach..."
+rm -f /bin/stbackupdb-$dataname
+rm -f /etc/cron.d/db.cron
+systemctl restart  crond.service
+
+echo "Ngung tu dong sao luu data $dataname thanh cong!"
+else
+echo "Khong tim thay $dataname trong danh sach tu dong sao luu"
+echo "Chao tam biet....!"
+exit
+fi
