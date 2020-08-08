@@ -80,7 +80,7 @@ printf "\nNhap vao ten mien chinh (non-www hoac www) roi an [ENTER]: "
 read server_name
 if [ "$server_name" = "" ]; then
 	server_name="hocvps.com"
-	echo "Ban nhap sai, he thong dung hocvps.com lam ten mien chinh"
+	echo "Ban nhap sai, he thong dung $server_name lam ten mien chinh"
 fi
 
 printf "\nNhap vao port admin roi an [ENTER]: " 
