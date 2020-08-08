@@ -193,7 +193,7 @@ mkdir -p /var/log/nginx
 chown -R nginx:nginx /var/log/nginx
 chown -R nginx:nginx /var/lib/php/session
 
-wget -q $script_url/html/index.html -O /home/$server_name/public_html/index.html
+cat "$ROOT_FOLDER/html/index.html" > /home/$server_name/public_html/index.html
 
 systemctl start nginx.service
 systemctl start php-fpm.service
