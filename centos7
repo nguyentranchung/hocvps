@@ -6,6 +6,7 @@
 # or
 # curl -sO https://hocvps.com/scripts/$(rpm -E %centos)/install && bash install
 #######################################################
+ROOT_FOLDER="$(pwd)"
 hocvps_version="2.1"
 phpmyadmin_version="4.9.5" # Released 2020-03-21. Older version compatible with PHP 5.5 to 7.4 and MySQL 5.5 and newer. Currently supported for security fixes only.
 extplorer_version="2.1.13" # 05/15/2019 04:43 PM
@@ -112,7 +113,7 @@ rpm -Uvh http://rpms.famillecollet.com/enterprise/remi-release-7.rpm
 rpm -Uvh http://nginx.org/packages/centos/7/noarch/RPMS/nginx-release-centos-7-0.el7.ngx.noarch.rpm
 
 # Install MariaDB Repo 10.0
-wget -O /etc/yum.repos.d/MariaDB.repo $script_url/repo/mariadb/$(uname -i)/10
+cat "$ROOT_FOLDER/repo/mariadb/$(uname -i)/10" > /etc/yum.repos.d/MariaDB.repo
 
 systemctl stop  saslauthd.service
 systemctl disable saslauthd.service
