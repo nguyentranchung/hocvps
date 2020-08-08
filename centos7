@@ -861,7 +861,8 @@ printf "========================================================================
 printf "Cau hinh hoan tat, bat dau them menu hocvps, nhanh thoi... \n"
 printf "=========================================================================\n"
 
-wget -q $script_url/hocvps -O /bin/hocvps && chmod +x /bin/hocvps
+> /bin/hocvps
+cat $ROOT_FOLDER/hocvps/hocvps > /bin/hocvps && chmod +x /bin/hocvps
 mkdir /etc/hocvps/menu/
 cd /etc/hocvps/menu/
 wget -q $script_url/component/menu.zip
