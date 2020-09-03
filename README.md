@@ -77,7 +77,6 @@ Cuối cùng, nếu không có vấn đề gì xảy ra, bạn sẽ nhận đư�
 Vậy là server sẵn sàng để bạn sử dụng rồi đấy.
 
 ## Sử dụng HocVPS Script
--------------------------
 
 HocVPS Menu được sử dụng qua lệnh `hocvps` trên SSH Terminal.
 
@@ -101,7 +100,6 @@ Username mặc định cho tất cả các tool là _admin_, password tự độ
 – HocVPS Script hoạt động rất tốt với WordPress, Joomla, Magento, PrestaShop, Xenforo (đã trực tiếp test)
 
 ## Bài viết hay liên quan đến HocVPS Script
---------------------------------------------
 
 1.  [Reset password quản lý server HocVPS Script](https://hocvps.com/reset-password-hocvps-admin/)
 2.  [Rclone – Backup toàn bộ VPS lên Google Drive](https://hocvps.com/rclone/)
@@ -113,7 +111,6 @@ Username mặc định cho tất cả các tool là _admin_, password tự độ
 8.  [Cách xử lý lỗi: Couldn’t resolve host](Couldn’t resolve host ‘mirrorlist.centos.org’)
 
 ## Một số vấn đề có thể gặp phải
----------------------------------
 
 +\-[1\. Cài đặt diễn đàn VBB](#1-cai-dat-dien-dan-vbb)
 
