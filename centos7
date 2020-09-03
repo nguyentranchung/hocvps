@@ -727,10 +727,10 @@ mkdir /home/$server_name/private_html/serverinfo/
 # phpMyAdmin
 mkdir /home/$server_name/private_html/phpmyadmin/
 cd /home/$server_name/private_html/phpmyadmin/
-wget --no-check-certificate -q https://files.phpmyadmin.net/phpMyAdmin/$phpmyadmin_version/phpMyAdmin-$phpmyadmin_version-english.zip
-unzip -q phpMyAdmin-$phpmyadmin_version-english.zip
-mv -f phpMyAdmin-$phpmyadmin_version-english/* .
-rm -rf phpMyAdmin-$phpmyadmin_version-english*
+wget --no-check-certificate -q https://files.phpmyadmin.net/phpMyAdmin/$phpmyadmin_version/phpMyAdmin-$phpmyadmin_version-all-languages.zip
+unzip -q phpMyAdmin-$phpmyadmin_version-all-languages.zip
+mv -f phpMyAdmin-$phpmyadmin_version-all-languages/* .
+rm -rf phpMyAdmin-$phpmyadmin_version-all-languages*
 
 # eXtplorer File Manager
 mkdir /home/$server_name/private_html/filemanager/
