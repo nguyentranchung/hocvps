@@ -8,14 +8,14 @@ printf "========================================================================
 echo -n "Nhap vao domain ban muon them roi an [ENTER]: "
 read domain
 if [ "$domain" = "" ]; then
-	echo "Ban nhap sai, vui long nhap chinh xac"
-	exit
+    echo "Ban nhap sai, vui long nhap chinh xac"
+    exit
 fi
 
 if [ -f /etc/nginx/conf.d/$domain.conf ]; then
-	echo "Phat hien thay $domain da ton tai tren he thong"
-	echo "Chao tam biet...!"
-	exit
+    echo "Phat hien thay $domain da ton tai tren he thong"
+    echo "Chao tam biet...!"
+    exit
 fi
 mkdir -p /home/$domain/public_html
 mkdir -p /home/$domain/logs
@@ -30,13 +30,13 @@ chown -R nginx:nginx /var/lib/php
 
 domain_alias="www.$domain"
 if [[ $domain == *www* ]]; then
-	domain_alias=${domain/www./''}
+    domain_alias=${domain/www./''}
 fi
 
 cat >"/etc/nginx/conf.d/$domain.conf" <<END
 server {
 	listen 80;
-	
+
 	server_name $domain_alias;
 	rewrite ^(.*) http://$domain\$1 permanent;
 }
@@ -48,18 +48,18 @@ server {
 	access_log /home/$domain/logs/access.log;
 	# error_log off;
 	error_log /home/$domain/logs/error.log;
-	
+
 	root /home/$domain/public_html;
 	index index.php index.html index.htm;
 	server_name $domain;
-	
+
 	# Custom configuration
 	include /home/$domain/public_html/*.conf;
- 
+
 	location / {
 		try_files \$uri \$uri/ /index.php?\$args;
 	}
- 
+
 	location ~ \.php$ {
 		fastcgi_split_path_info ^(.+\.php)(/.+)$;
 		include /etc/nginx/fastcgi_params;
@@ -75,25 +75,25 @@ server {
 		fastcgi_intercept_errors on;
 		fastcgi_param SCRIPT_FILENAME \$document_root\$fastcgi_script_name;
 	}
-	
+
 	# Disable .htaccess and other hidden files
 	location ~ /\.(?!well-known).* {
 		deny all;
 		access_log off;
 		log_not_found off;
 	}
-	
+
 	location = /favicon.ico {
 		log_not_found off;
 		access_log off;
 	}
-	
+
 	location = /robots.txt {
 		allow all;
 		log_not_found off;
 		access_log off;
 	}
-	
+
 	location ~* \.(3gp|gif|jpg|jpeg|png|ico|wmv|avi|asf|asx|mpg|mpeg|mp4|pls|mp3|mid|wav|swf|flv|exe|zip|tar|rar|gz|tgz|bz2|uha|7z|doc|docx|xls|xlsx|pdf|iso|eot|svg|ttf|woff)$ {
 		gzip_static off;
 		add_header Pragma public;

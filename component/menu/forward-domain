@@ -8,21 +8,21 @@ printf "========================================================================
 echo -n "Nhap vao ten mien ban muon forward roi an [ENTER]: "
 read domain
 if [ "$domain" = "" ]; then
-	echo "Ban nhap sai, vui long nhap chinh xac"
-	exit
+    echo "Ban nhap sai, vui long nhap chinh xac"
+    exit
 fi
 
 if [ -f /etc/nginx/conf.d/$domain.conf ]; then
-	echo "Phat hien thay $domain da ton tai tren he thong"
-	echo "Hay xoa bo $domain ra khoi he thong roi thu lai !!!"
-	exit
+    echo "Phat hien thay $domain da ton tai tren he thong"
+    echo "Hay xoa bo $domain ra khoi he thong roi thu lai !!!"
+    exit
 fi
 
 echo -n "Nhap vao ten mien dich ma ban muon $domain chuyen huong toi: "
 read domain_forward
 if [ "$domain_forward" = "" ]; then
-	echo "Ban nhap sai, vui long nhap chinh xac"
-	exit
+    echo "Ban nhap sai, vui long nhap chinh xac"
+    exit
 fi
 
 echo
@@ -30,22 +30,22 @@ echo "Ban co chac muon them $domain vao he thong"
 read -r -p "Va chuyen huong truy cap toi $domain_forward khong ? [y/N] " response
 case $response in
 [yY][eE][sS] | [yY])
-	domain_alias="www.$domain"
+    domain_alias="www.$domain"
 
-	if [[ $domain == *www* ]]; then
-		domain_alias=${domain/www./''}
-	fi
+    if [[ $domain == *www* ]]; then
+        domain_alias=${domain/www./''}
+    fi
 
-	cat >>"/etc/nginx/conf.d/$domain.conf" <<END
+    cat >>"/etc/nginx/conf.d/$domain.conf" <<END
 server {
 	    server_name $domain $domain_alias;
 	    rewrite ^(.*) http://$domain_forward\$1 permanent;
 }
 END
-	nginx -s reload
-	echo "$domain da duoc them vao he thong va chuyen huong truy cap toi $domain_forward"
-	;;
+    nginx -s reload
+    echo "$domain da duoc them vao he thong va chuyen huong truy cap toi $domain_forward"
+    ;;
 *)
-	echo "Chao tam biet....!"
-	;;
+    echo "Chao tam biet....!"
+    ;;
 esac
