@@ -53,15 +53,6 @@ if [ "$OS_VERSION" != "centos6" ] && [ "$OS_VERSION" != "centos7" ]; then
 	exit
 fi
 
-if [ -f /etc/hocvps/scripts.conf ]; then
-	echo "========================================================================="
-	echo "Server/VPS cua ban da cai san HocVPS Script"
-	echo "Hay su dung lenh hocvps de truy cap menu quan ly"
-	echo "Chao tam biet!"
-	echo "========================================================================="
-	exit
-fi
-
 if [ "$ID" == "centos" ]; then
 	yum install git -y
 fi
@@ -75,6 +66,15 @@ else
 	mkdir -p $ACTION_FOLDER
 	cd $ACTION_FOLDER
 	git clone https://github.com/nguyentranchung/hocvps.git .
+fi
+
+if [ -f /etc/hocvps/scripts.conf ]; then
+	echo "========================================================================="
+	echo "Server/VPS cua ban da cai san HocVPS Script"
+	echo "Hay su dung lenh hocvps de truy cap menu quan ly"
+	echo "Chao tam biet!"
+	echo "========================================================================="
+	exit
 fi
 
 if [ "$1" = "wordpress" ]; then
