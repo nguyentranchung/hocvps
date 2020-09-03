@@ -731,6 +731,9 @@ wget --no-check-certificate -q https://files.phpmyadmin.net/phpMyAdmin/$phpmyadm
 unzip -q phpMyAdmin-$phpmyadmin_version-all-languages.zip
 mv -f phpMyAdmin-$phpmyadmin_version-all-languages/* .
 rm -rf phpMyAdmin-$phpmyadmin_version-all-languages*
+mv config.sample.inc.php config.inc.php
+blowfish_secret=$(head -c 32 /dev/random | base64)
+sed -i "s/\['blowfish_secret'\] = ''/\['blowfish_secret'\] = '$blowfish_secret'/" config.inc.php
 
 # eXtplorer File Manager
 mkdir /home/$server_name/private_html/filemanager/
