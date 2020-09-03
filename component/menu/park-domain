@@ -7,36 +7,36 @@ printf "========================================================================
 echo -n "Them ten mien chay song song roi an [ENTER]: "
 read domain
 if [ "$domain" = "" ]; then
-	echo "Ban nhap sai, vui long nhap chinh xac"
-	exit
+    echo "Ban nhap sai, vui long nhap chinh xac"
+    exit
 fi
 
 if [ -f /etc/nginx/conf.d/$domain.conf ]; then
-	echo "Phat hien thay $domain da ton tai tren he thong"
-	echo "Hay xoa bo $domain ra khoi he thong roi thu lai !!!"
-	exit
+    echo "Phat hien thay $domain da ton tai tren he thong"
+    echo "Hay xoa bo $domain ra khoi he thong roi thu lai !!!"
+    exit
 fi
 
 echo -n "Nhap vao ten mien dich ma ban muon $domain chay song song voi: "
 read domain_park
 
 if [ -f /etc/nginx/conf.d/$domain_park.conf ]; then
-	echo
-	echo "Ban co chac muon them $domain vao he thong"
-	read -r -p "Va chay song song voi $domain_park khong ? [y/N] " response
-	case $response in
-	[yY][eE][sS] | [yY])
+    echo
+    echo "Ban co chac muon them $domain vao he thong"
+    read -r -p "Va chay song song voi $domain_park khong ? [y/N] " response
+    case $response in
+    [yY][eE][sS] | [yY])
 
-		chown -R nginx:nginx /home/*/public_html
-		chown -R nginx:nginx /home/*/private_html
-		chown -R nginx:nginx /var/lib/php
+        chown -R nginx:nginx /home/*/public_html
+        chown -R nginx:nginx /home/*/private_html
+        chown -R nginx:nginx /var/lib/php
 
-		domain_alias="www.$domain"
-		if [[ $domain == *www* ]]; then
-			domain_alias=${domain/www./''}
-		fi
+        domain_alias="www.$domain"
+        if [[ $domain == *www* ]]; then
+            domain_alias=${domain/www./''}
+        fi
 
-		cat >"/etc/nginx/conf.d/$domain.conf" <<END
+        cat >"/etc/nginx/conf.d/$domain.conf" <<END
 server {
 	listen 80;
 
@@ -78,25 +78,25 @@ server {
 		fastcgi_intercept_errors on;
         	fastcgi_param SCRIPT_FILENAME \$document_root\$fastcgi_script_name;
     	}
-	
+
 	# Disable .htaccess and other hidden files
 	location ~ /\.(?!well-known).* {
 		deny all;
 		access_log off;
 		log_not_found off;
 	}
-	
+
 	location = /favicon.ico {
 		log_not_found off;
 		access_log off;
 	}
-	
+
 	location = /robots.txt {
 		allow all;
 		log_not_found off;
 		access_log off;
 	}
-	
+
 	location ~* \.(3gp|gif|jpg|jpeg|png|ico|wmv|avi|asf|asx|mpg|mpeg|mp4|pls|mp3|mid|wav|swf|flv|exe|zip|tar|rar|gz|tgz|bz2|uha|7z|doc|docx|xls|xlsx|pdf|iso|eot|svg|ttf|woff)$ {
 		gzip_static off;
 		add_header Pragma public;
@@ -115,16 +115,16 @@ server {
         }
 }
 END
-		nginx -s reload
-		echo
-		echo "$domain da duoc them vao he thong va chay song song voi $domain_park"
-		;;
-	*)
-		echo "Chao tam biet....!"
-		;;
-	esac
+        nginx -s reload
+        echo
+        echo "$domain da duoc them vao he thong va chay song song voi $domain_park"
+        ;;
+    *)
+        echo "Chao tam biet....!"
+        ;;
+    esac
 else
-	echo "Khong phat hien thay $domain_park tren he thong !!!!"
-	echo "Vui long kiem tra va thu lai sau"
-	exit
+    echo "Khong phat hien thay $domain_park tren he thong !!!!"
+    echo "Vui long kiem tra va thu lai sau"
+    exit
 fi
