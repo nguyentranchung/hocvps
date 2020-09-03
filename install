@@ -57,6 +57,8 @@ if [ "$ID" == "centos" ]; then
 	yum install git -y
 fi
 
+$CURRENT_FOLDER=$(pwd)
+
 ACTION_FOLDER=/root/hocvps
 if [ -d "$ACTION_FOLDER" ]; then
 	cd $ACTION_FOLDER
@@ -76,6 +78,8 @@ if [ -f /etc/hocvps/scripts.conf ]; then
 	echo "========================================================================="
 	exit
 fi
+
+rm -f $CURRENT_FOLDER/install*
 
 if [ "$1" = "wordpress" ]; then
 	bash $OS_VERSION wordpress
