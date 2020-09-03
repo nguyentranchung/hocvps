@@ -14,11 +14,11 @@ extplorer_id="82"
 low_ram='262144' # 256MB
 LINE="========================================================================="
 print_message() {
-	if [ "$1" == "" ]; then
-		printf "$LINE\n"
-	else
-		printf "$LINE\n$1\n$LINEs\n"
-	fi
+    if [ "$1" == "" ]; then
+        printf "$LINE\n"
+    else
+        printf "$LINE\n$1\n$LINEs\n"
+    fi
 }
 yum -y install gawk bc wget lsof
 
@@ -46,8 +46,8 @@ echo "IP cua server la : $server_ip"
 print_message
 
 if [ $server_ram_total -lt $low_ram ]; then
-	echo -e "Canh bao: dung luong RAM qua thap de cai HocVPS Script \n====> (it nhat 256MB) \nhuy cai dat..."
-	exit
+    echo -e "Canh bao: dung luong RAM qua thap de cai HocVPS Script \n====> (it nhat 256MB) \nhuy cai dat..."
+    exit
 fi
 sleep 3
 
@@ -60,60 +60,60 @@ php_version="7.4" # Default PHP 7.4
 options=("PHP 7.4" "PHP 7.3" "PHP 7.2" "PHP 7.1" "PHP 7.0" "PHP 5.6")
 select opt in "${options[@]}"; do
 
-	case "$REPLY" in
-	1)
-		php_version="7.4"
-		break
-		;;
-	2)
-		php_version="7.3"
-		break
-		;;
-	3)
-		php_version="7.2"
-		break
-		;;
-	4)
-		php_version="7.1"
-		break
-		;;
-	5)
-		php_version="7.0"
-		break
-		;;
-	6)
-		php_version="5.6"
-		break
-		;;
-	$((${#options[@]} + 1)))
-		printf "\nHe thong se cai dat PHP $php_version\n"
-		break
-		;;
-	*)
-		printf "Ban nhap sai, he thong cai dat PHP $php_version\n"
-		break
-		;;
-	esac
+    case "$REPLY" in
+    1)
+        php_version="7.4"
+        break
+        ;;
+    2)
+        php_version="7.3"
+        break
+        ;;
+    3)
+        php_version="7.2"
+        break
+        ;;
+    4)
+        php_version="7.1"
+        break
+        ;;
+    5)
+        php_version="7.0"
+        break
+        ;;
+    6)
+        php_version="5.6"
+        break
+        ;;
+    $((${#options[@]} + 1)))
+        printf "\nHe thong se cai dat PHP $php_version\n"
+        break
+        ;;
+    *)
+        printf "Ban nhap sai, he thong cai dat PHP $php_version\n"
+        break
+        ;;
+    esac
 
 done
 
 print_message "Nhap vao ten mien chinh (non-www hoac www) roi an [ENTER]: "
 read server_name
 if [ "$server_name" = "" ]; then
-	server_name="hocvps.com"
-	echo "Ban nhap sai, he thong dung $server_name lam ten mien chinh"
+    server_name="hocvps.com"
+    echo "Ban nhap sai, he thong dung $server_name lam ten mien chinh"
 fi
 
 ssh_port=$((2001 + RANDOM % 7990))
 admin_port=$((2001 + RANDOM % 7990))
 while [ $admin_port = $ssh_port ]; do
-	admin_port=$((2001 + RANDOM % 7990))
+    admin_port=$((2001 + RANDOM % 7990))
 done
 
 if [ "$admin_port" == "" ] || [ $admin_port == $ssh_port ] || [ $admin_port -lt 2000 ] || [ $admin_port -gt 9999 ] || [ $(lsof -i -P | grep ":$admin_port " | wc -l) != "0" ]; then
-	admin_port=$(date +'%Y')
-	echo "Port admin khong phu hop. He thong su dung port mac dinh $admin_port"
-	echo
+    admin_port=$(date +'%Y')
+    echo "Port admin khong phu hop. He thong su dung port mac dinh $admin_port"
+    echo
 fi
 
 print_message "Hoan tat qua trinh chuan bi..."
@@ -122,8 +122,8 @@ rm -f /etc/localtime
 ln -sf /usr/share/zoneinfo/Asia/Ho_Chi_Minh /etc/localtime
 
 if [ -s /etc/selinux/config ]; then
-	sed -i 's/SELINUX=enforcing/SELINUX=disabled/g' /etc/selinux/config
-	sed -i 's/SELINUX=permissive/SELINUX=disabled/g' /etc/selinux/config
+    sed -i 's/SELINUX=enforcing/SELINUX=disabled/g' /etc/selinux/config
+    sed -i 's/SELINUX=permissive/SELINUX=disabled/g' /etc/selinux/config
 fi
 setenforce 0
 
@@ -159,25 +159,25 @@ sleep 3
 yum-config-manager --enable remi
 
 if [ "$php_version" = "7.4" ]; then
-	yum-config-manager --enable remi-php74
-	yum -y install nginx php-fpm php-common php-gd php-mysqlnd php-pdo php-xml php-mbstring php-mcrypt php-curl php-opcache php-cli php-pecl-zip
+    yum-config-manager --enable remi-php74
+    yum -y install nginx php-fpm php-common php-gd php-mysqlnd php-pdo php-xml php-mbstring php-mcrypt php-curl php-opcache php-cli php-pecl-zip
 elif [ "$php_version" = "7.3" ]; then
-	yum-config-manager --enable remi-php73
-	yum -y install nginx php-fpm php-common php-gd php-mysqlnd php-pdo php-xml php-mbstring php-mcrypt php-curl php-opcache php-cli php-pecl-zip
+    yum-config-manager --enable remi-php73
+    yum -y install nginx php-fpm php-common php-gd php-mysqlnd php-pdo php-xml php-mbstring php-mcrypt php-curl php-opcache php-cli php-pecl-zip
 elif [ "$php_version" = "7.2" ]; then
-	yum-config-manager --enable remi-php72
-	yum -y install nginx php-fpm php-common php-gd php-mysqlnd php-pdo php-xml php-mbstring php-mcrypt php-curl php-opcache php-cli php-pecl-zip
+    yum-config-manager --enable remi-php72
+    yum -y install nginx php-fpm php-common php-gd php-mysqlnd php-pdo php-xml php-mbstring php-mcrypt php-curl php-opcache php-cli php-pecl-zip
 elif [ "$php_version" = "7.1" ]; then
-	yum-config-manager --enable remi-php71
-	yum -y install nginx php-fpm php-common php-gd php-mysqlnd php-pdo php-xml php-mbstring php-mcrypt php-curl php-opcache php-cli php-pecl-zip
+    yum-config-manager --enable remi-php71
+    yum -y install nginx php-fpm php-common php-gd php-mysqlnd php-pdo php-xml php-mbstring php-mcrypt php-curl php-opcache php-cli php-pecl-zip
 elif [ "$php_version" = "7.0" ]; then
-	yum-config-manager --enable remi-php70
-	yum -y install nginx php-fpm php-common php-gd php-mysqlnd php-pdo php-xml php-mbstring php-mcrypt php-curl php-opcache php-cli php-pecl-zip
+    yum-config-manager --enable remi-php70
+    yum -y install nginx php-fpm php-common php-gd php-mysqlnd php-pdo php-xml php-mbstring php-mcrypt php-curl php-opcache php-cli php-pecl-zip
 elif [ "$php_version" = "5.6" ]; then
-	yum-config-manager --enable remi-php56
-	yum -y install nginx php-fpm php-common php-gd php-mysqlnd php-pdo php-xml php-mbstring php-mcrypt php-curl php-opcache php-cli
+    yum-config-manager --enable remi-php56
+    yum -y install nginx php-fpm php-common php-gd php-mysqlnd php-pdo php-xml php-mbstring php-mcrypt php-curl php-opcache php-cli
 else
-	yum -y install nginx php-fpm php-common php-gd php-mysqlnd php-pdo php-xml php-mbstring php-mcrypt php-curl php-devel php-cli gcc
+    yum -y install nginx php-fpm php-common php-gd php-mysqlnd php-pdo php-xml php-mbstring php-mcrypt php-curl php-devel php-cli gcc
 fi
 
 # Install MariaDB
@@ -224,17 +224,17 @@ phplowmem='2097152'
 check_phplowmem=$(expr $server_ram_total \< $phplowmem)
 max_children=$(echo "scale=0;$server_ram_mb*0.4/30" | bc)
 if [ "$check_phplowmem" == "1" ]; then
-	lessphpmem=y
+    lessphpmem=y
 fi
 
 if [[ "$lessphpmem" = [yY] ]]; then
-	# echo -e "\nCopying php-fpm-min.conf /etc/php-fpm.d/www.conf\n"
-	/usr/bin/cp $ROOT_FOLDER/config/php-fpm/php-fpm-min.conf /etc/php-fpm.conf
-	/usr/bin/cp $ROOT_FOLDER/config/php-fpm/www-min.conf /etc/php-fpm.d/www.conf
+    # echo -e "\nCopying php-fpm-min.conf /etc/php-fpm.d/www.conf\n"
+    /usr/bin/cp $ROOT_FOLDER/config/php-fpm/php-fpm-min.conf /etc/php-fpm.conf
+    /usr/bin/cp $ROOT_FOLDER/config/php-fpm/www-min.conf /etc/php-fpm.d/www.conf
 else
-	# echo -e "\nCopying php-fpm.conf /etc/php-fpm.d/www.conf\n"
-	/usr/bin/cp $ROOT_FOLDER/config/php-fpm/php-fpm.conf /etc/php-fpm.conf
-	/usr/bin/cp $ROOT_FOLDER/config/php-fpm/www.conf /etc/php-fpm.d/www.conf
+    # echo -e "\nCopying php-fpm.conf /etc/php-fpm.d/www.conf\n"
+    /usr/bin/cp $ROOT_FOLDER/config/php-fpm/php-fpm.conf /etc/php-fpm.conf
+    /usr/bin/cp $ROOT_FOLDER/config/php-fpm/www.conf /etc/php-fpm.d/www.conf
 fi # lessphpmem
 
 sed -i "s/server_name_here/$server_name/g" /etc/php-fpm.conf
@@ -243,45 +243,45 @@ sed -i "s/max_children_here/$max_children/g" /etc/php-fpm.d/www.conf
 
 # dynamic PHP memory_limit calculation
 if [[ "$server_ram_total" -le '262144' ]]; then
-	php_memorylimit='48M'
-	php_uploadlimit='48M'
-	php_realpathlimit='256k'
-	php_realpathttl='14400'
+    php_memorylimit='48M'
+    php_uploadlimit='48M'
+    php_realpathlimit='256k'
+    php_realpathttl='14400'
 elif [[ "$server_ram_total" -gt '262144' && "$server_ram_total" -le '393216' ]]; then
-	php_memorylimit='96M'
-	php_uploadlimit='96M'
-	php_realpathlimit='320k'
-	php_realpathttl='21600'
+    php_memorylimit='96M'
+    php_uploadlimit='96M'
+    php_realpathlimit='320k'
+    php_realpathttl='21600'
 elif [[ "$server_ram_total" -gt '393216' && "$server_ram_total" -le '524288' ]]; then
-	php_memorylimit='128M'
-	php_uploadlimit='128M'
-	php_realpathlimit='384k'
-	php_realpathttl='28800'
+    php_memorylimit='128M'
+    php_uploadlimit='128M'
+    php_realpathlimit='384k'
+    php_realpathttl='28800'
 elif [[ "$server_ram_total" -gt '524288' && "$server_ram_total" -le '1049576' ]]; then
-	php_memorylimit='160M'
-	php_uploadlimit='160M'
-	php_realpathlimit='384k'
-	php_realpathttl='28800'
+    php_memorylimit='160M'
+    php_uploadlimit='160M'
+    php_realpathlimit='384k'
+    php_realpathttl='28800'
 elif [[ "$server_ram_total" -gt '1049576' && "$server_ram_total" -le '2097152' ]]; then
-	php_memorylimit='256M'
-	php_uploadlimit='256M'
-	php_realpathlimit='384k'
-	php_realpathttl='28800'
+    php_memorylimit='256M'
+    php_uploadlimit='256M'
+    php_realpathlimit='384k'
+    php_realpathttl='28800'
 elif [[ "$server_ram_total" -gt '2097152' && "$server_ram_total" -le '3145728' ]]; then
-	php_memorylimit='320M'
-	php_uploadlimit='320M'
-	php_realpathlimit='512k'
-	php_realpathttl='43200'
+    php_memorylimit='320M'
+    php_uploadlimit='320M'
+    php_realpathlimit='512k'
+    php_realpathttl='43200'
 elif [[ "$server_ram_total" -gt '3145728' && "$server_ram_total" -le '4194304' ]]; then
-	php_memorylimit='512M'
-	php_uploadlimit='512M'
-	php_realpathlimit='512k'
-	php_realpathttl='43200'
+    php_memorylimit='512M'
+    php_uploadlimit='512M'
+    php_realpathlimit='512k'
+    php_realpathttl='43200'
 elif [[ "$server_ram_total" -gt '4194304' ]]; then
-	php_memorylimit='800M'
-	php_uploadlimit='800M'
-	php_realpathlimit='640k'
-	php_realpathttl='86400'
+    php_memorylimit='800M'
+    php_uploadlimit='800M'
+    php_realpathlimit='640k'
+    php_realpathttl='86400'
 fi
 
 cat >"/etc/php.d/00-hocvps-custom.ini" <<END
@@ -306,18 +306,18 @@ END
 opcache_path='opcache.so' #Default for PHP 5.5 and newer
 
 if [ "$php_version" = "5.4" ]; then
-	cd /usr/local/src
-	wget http://pecl.php.net/get/ZendOpcache
-	tar xvfz ZendOpcache
-	cd zendopcache-7.*
-	phpize
-	php_config_path=$(which php-config)
-	./configure --with-php-config=$php_config_path
-	make
-	make install
-	rm -rf /usr/local/src/zendopcache*
-	rm -f ZendOpcache
-	opcache_path=$(find / -name 'opcache.so')
+    cd /usr/local/src
+    wget http://pecl.php.net/get/ZendOpcache
+    tar xvfz ZendOpcache
+    cd zendopcache-7.*
+    phpize
+    php_config_path=$(which php-config)
+    ./configure --with-php-config=$php_config_path
+    make
+    make install
+    rm -rf /usr/local/src/zendopcache*
+    rm -f ZendOpcache
+    opcache_path=$(find / -name 'opcache.so')
 fi
 
 wget -q https://raw.github.com/amnuts/opcache-gui/master/index.php -O /home/$server_name/private_html/op.php
@@ -373,13 +373,13 @@ http {
 
 	#Disable IFRAME
 	add_header X-Frame-Options SAMEORIGIN;
-	
+
 	#Prevent Cross-site scripting (XSS) attacks
 	add_header X-XSS-Protection "1; mode=block";
-	
+
 	#Prevent MIME-sniffing
 	add_header X-Content-Type-Options nosniff;
-	
+
 	access_log  off;
 	sendfile on;
 	tcp_nopush on;
@@ -398,7 +398,7 @@ http {
 	keepalive_disable msie6;
 	reset_timedout_connection on;
 	send_timeout 60s;
-	
+
 	gzip on;
 	gzip_static on;
 	gzip_disable "msie6";
@@ -450,36 +450,36 @@ rm -rf /etc/nginx/conf.d/*
 
 server_name_alias="www.$server_name"
 if [[ $server_name == *www* ]]; then
-	server_name_alias=${server_name/www./''}
+    server_name_alias=${server_name/www./''}
 fi
 
 cat >"/etc/nginx/conf.d/$server_name.conf" <<END
 server {
 	listen 80;
-	
+
 	server_name $server_name_alias;
 	rewrite ^(.*) http://$server_name\$1 permanent;
 }
 
 server {
 	listen 80 default_server;
-		
+
 	# access_log off;
 	access_log /home/$server_name/logs/access.log;
 	# error_log off;
 	error_log /home/$server_name/logs/error.log;
-	
+
 	root /home/$server_name/public_html;
 	index index.php index.html index.htm;
 	server_name $server_name;
- 
+
 	location / {
 		try_files \$uri \$uri/ /index.php?\$args;
 	}
-	
+
 	# Custom configuration
 	include /home/$server_name/public_html/*.conf;
- 
+
 	location ~ \.php$ {
 		fastcgi_split_path_info ^(.+\.php)(/.+)$;
 		include /etc/nginx/fastcgi_params;
@@ -495,7 +495,7 @@ server {
 		fastcgi_intercept_errors on;
 		fastcgi_param SCRIPT_FILENAME \$document_root\$fastcgi_script_name;
 	}
-	
+
 	location /nginx_status {
   		stub_status on;
   		access_log   off;
@@ -503,7 +503,7 @@ server {
 		allow $server_ip;
 		deny all;
 	}
-	
+
 	location /php_status {
 		fastcgi_pass 127.0.0.1:9000;
 		fastcgi_index index.php;
@@ -513,25 +513,25 @@ server {
 		allow $server_ip;
 		deny all;
 	}
-	
+
 	# Disable .htaccess and other hidden files
 	location ~ /\.(?!well-known).* {
 		deny all;
 		access_log off;
 		log_not_found off;
 	}
-	
+
 	location = /favicon.ico {
 		log_not_found off;
 		access_log off;
 	}
-	
+
 	location = /robots.txt {
 		allow all;
 		log_not_found off;
 		access_log off;
 	}
-	
+
 	location ~* \.(3gp|gif|jpg|jpeg|png|ico|wmv|avi|asf|asx|mpg|mpeg|mp4|pls|mp3|mid|wav|swf|flv|exe|zip|tar|rar|gz|tgz|bz2|uha|7z|doc|docx|xls|xlsx|pdf|iso|eot|svg|ttf|woff)$ {
 		gzip_static off;
 		add_header Pragma public;
@@ -552,23 +552,23 @@ server {
 
 server {
 	listen $admin_port;
-	
+
  	access_log off;
 	log_not_found off;
  	error_log /home/$server_name/logs/nginx_error.log;
-	
+
 	root /home/$server_name/private_html;
 	index index.php index.html index.htm;
 	server_name $server_name;
-	
+
 	auth_basic "Restricted";
 	auth_basic_user_file /home/$server_name/private_html/hocvps/.htpasswd;
- 
+
 	location / {
 		autoindex on;
 		try_files \$uri \$uri/ /index.php;
 	}
-	
+
 	location ~ \.php$ {
 		fastcgi_split_path_info ^(.+\.php)(/.+)$;
 		include /etc/nginx/fastcgi_params;
@@ -584,7 +584,7 @@ server {
 		fastcgi_intercept_errors on;
 		fastcgi_param SCRIPT_FILENAME \$document_root\$fastcgi_script_name;
 	}
-	
+
 	location ~ /\. {
 		deny all;
 	}
@@ -611,33 +611,33 @@ systemctl restart nginx.service
 cp /etc/my.cnf /etc/my.cnf-original
 
 if [[ "$(expr $server_ram_total \<= 2099000)" = "1" ]]; then
-	# echo -e "\nCopying MariaDB my-mdb10-min.cnf file to /etc/my.cnf\n"
-	/usr/bin/cp /config/mysql/my-mdb10-min.cnf /etc/my.cnf
+    # echo -e "\nCopying MariaDB my-mdb10-min.cnf file to /etc/my.cnf\n"
+    /usr/bin/cp /config/mysql/my-mdb10-min.cnf /etc/my.cnf
 fi
 
 if [[ "$(expr $server_ram_total \> 2100001)" = "1" && "$(expr $server_ram_total \<= 4190000)" = "1" ]]; then
-	# echo -e "\nCopying MariaDB my-mdb10.cnf file to /etc/my.cnf\n"
-	/usr/bin/cp /config/mysql/my-mdb10.cnf /etc/my.cnf
+    # echo -e "\nCopying MariaDB my-mdb10.cnf file to /etc/my.cnf\n"
+    /usr/bin/cp /config/mysql/my-mdb10.cnf /etc/my.cnf
 fi
 
 if [[ "$(expr $server_ram_total \>= 4190001)" = "1" && "$(expr $server_ram_total \<= 8199999)" = "1" ]]; then
-	# echo -e "\nCopying MariaDB my-mdb10-4gb.cnf file to /etc/my.cnf\n"
-	/usr/bin/cp /config/mysql/my-mdb10-4gb.cnf /etc/my.cnf
+    # echo -e "\nCopying MariaDB my-mdb10-4gb.cnf file to /etc/my.cnf\n"
+    /usr/bin/cp /config/mysql/my-mdb10-4gb.cnf /etc/my.cnf
 fi
 
 if [[ "$(expr $server_ram_total \>= 8200000)" = "1" && "$(expr $server_ram_total \<= 15999999)" = "1" ]]; then
-	# echo -e "\nCopying MariaDB my-mdb10-8gb.cnf file to /etc/my.cnf\n"
-	/usr/bin/cp /config/mysql/my-mdb10-8gb.cnf /etc/my.cnf
+    # echo -e "\nCopying MariaDB my-mdb10-8gb.cnf file to /etc/my.cnf\n"
+    /usr/bin/cp /config/mysql/my-mdb10-8gb.cnf /etc/my.cnf
 fi
 
 if [[ "$(expr $server_ram_total \>= 16000000)" = "1" && "$(expr $server_ram_total \<= 31999999)" = "1" ]]; then
-	# echo -e "\nCopying MariaDB my-mdb10-16gb.cnf file to /etc/my.cnf\n"
-	/usr/bin/cp /config/mysql/my-mdb10-16gb.cnf /etc/my.cnf
+    # echo -e "\nCopying MariaDB my-mdb10-16gb.cnf file to /etc/my.cnf\n"
+    /usr/bin/cp /config/mysql/my-mdb10-16gb.cnf /etc/my.cnf
 fi
 
 if [[ "$(expr $server_ram_total \>= 32000000)" = "1" ]]; then
-	# echo -e "\nCopying MariaDB my-mdb10-32gb.cnf file to /etc/my.cnf\n"
-	/usr/bin/cp /config/mysql/my-mdb10-32gb.cnf /etc/my.cnf
+    # echo -e "\nCopying MariaDB my-mdb10-32gb.cnf file to /etc/my.cnf\n"
+    /usr/bin/cp /config/mysql/my-mdb10-32gb.cnf /etc/my.cnf
 fi
 
 sed -i "s/server_name_here/$server_name/g" /etc/my.cnf
@@ -687,30 +687,30 @@ systemctl restart mysql.service
 mysql_upgrade --force mysql
 
 if [ "$1" = "wordpress" ]; then
-	clear
-	print_message "Cai dat WordPress..."
-	cd /home/$server_name/public_html/
-	rm -f index.html
-	# Generate wordpress database
-	wordpress_password=$(date | md5sum | cut -c '1-15')
-	secure_table_prefix=$(date | md5sum | cut -c '1-5')
-	mysql -u root -p"$root_password" -e "CREATE DATABASE wordpress;GRANT ALL PRIVILEGES ON wordpress.* TO wordpress@localhost IDENTIFIED BY '$wordpress_password';FLUSH PRIVILEGES;"
+    clear
+    print_message "Cai dat WordPress..."
+    cd /home/$server_name/public_html/
+    rm -f index.html
+    # Generate wordpress database
+    wordpress_password=$(date | md5sum | cut -c '1-15')
+    secure_table_prefix=$(date | md5sum | cut -c '1-5')
+    mysql -u root -p"$root_password" -e "CREATE DATABASE wordpress;GRANT ALL PRIVILEGES ON wordpress.* TO wordpress@localhost IDENTIFIED BY '$wordpress_password';FLUSH PRIVILEGES;"
 
-	# Download latest WordPress and uncompress
-	wget https://wordpress.org/latest.tar.gz
-	tar zxf latest.tar.gz
-	mv wordpress/* ./
+    # Download latest WordPress and uncompress
+    wget https://wordpress.org/latest.tar.gz
+    tar zxf latest.tar.gz
+    mv wordpress/* ./
 
-	# Grab Salt Keys
-	wget -O /tmp/wp.keys https://api.wordpress.org/secret-key/1.1/salt/
+    # Grab Salt Keys
+    wget -O /tmp/wp.keys https://api.wordpress.org/secret-key/1.1/salt/
 
-	# Butcher our wp-config.php file
-	sed -e "s/database_name_here/wordpress/" -e "s/username_here/wordpress/" -e "s/password_here/"$wordpress_password"/" -e "s/wp_/wp_"$secure_table_prefix"_/" wp-config-sample.php >wp-config.php
-	sed -i '/#@-/r /tmp/wp.keys' wp-config.php
-	sed -i "/#@+/,/#@-/d" wp-config.php
+    # Butcher our wp-config.php file
+    sed -e "s/database_name_here/wordpress/" -e "s/username_here/wordpress/" -e "s/password_here/"$wordpress_password"/" -e "s/wp_/wp_"$secure_table_prefix"_/" wp-config-sample.php >wp-config.php
+    sed -i '/#@-/r /tmp/wp.keys' wp-config.php
+    sed -i "/#@+/,/#@-/d" wp-config.php
 
-	# Tidy up
-	rm -rf wordpress latest.tar.gz /tmp/wp.keys wp wp-config-sample.php
+    # Tidy up
+    rm -rf wordpress latest.tar.gz /tmp/wp.keys wp wp-config-sample.php
 fi
 
 clear
@@ -827,14 +827,14 @@ systemctl start fail2ban.service
 
 # Open port
 if [ -f /etc/sysconfig/iptables ]; then
-	iptables -I INPUT -p tcp --dport 80 -j ACCEPT
-	iptables -I INPUT -p tcp --dport 25 -j ACCEPT
-	iptables -I INPUT -p tcp --dport 443 -j ACCEPT
-	iptables -I INPUT -p tcp --dport 465 -j ACCEPT
-	iptables -I INPUT -p tcp --dport 587 -j ACCEPT
-	iptables -I INPUT -p tcp --dport $admin_port -j ACCEPT
-	iptables -I INPUT -p tcp --dport $ssh_port -j ACCEPT
-	service iptables save
+    iptables -I INPUT -p tcp --dport 80 -j ACCEPT
+    iptables -I INPUT -p tcp --dport 25 -j ACCEPT
+    iptables -I INPUT -p tcp --dport 443 -j ACCEPT
+    iptables -I INPUT -p tcp --dport 465 -j ACCEPT
+    iptables -I INPUT -p tcp --dport 587 -j ACCEPT
+    iptables -I INPUT -p tcp --dport $admin_port -j ACCEPT
+    iptables -I INPUT -p tcp --dport $ssh_port -j ACCEPT
+    service iptables save
 fi
 
 mkdir -p /var/lib/php/session
@@ -870,7 +870,7 @@ chmod +x /etc/hocvps/menu/*
 clear
 cat >"/root/hocvps-script.txt" <<END
 =========================================================================
-                           MANAGE VPS INFORMATION                        
+                           MANAGE VPS INFORMATION
 =========================================================================
 Lenh truy cap menu HocVPS Script: hocvps
 
@@ -892,14 +892,14 @@ END
 chmod 600 /root/hocvps-script.txt
 
 if [ "$1" = "wordpress" ]; then
-	print_message "Hoan tat qua trinh cai dat HocVPS Script + WordPress!"
-	printf "Tiep theo ban hay truy cap http://$server_name \n hoac http://$server_ip de cau hinh WordPress \n"
+    print_message "Hoan tat qua trinh cai dat HocVPS Script + WordPress!"
+    printf "Tiep theo ban hay truy cap http://$server_name \n hoac http://$server_ip de cau hinh WordPress \n"
 else
-	print_message "Scripts HocVPS da hoan tat qua trinh cai dat..."
-	printf "Sau day la thong tin server moi cua ban, hay doc can than va luu giu lai\n"
-	printf "de su dung sau nay:\n\n"
-	print_message
-	printf "Domain chinh: http://$server_name/ hoac http://$server_ip/\n"
+    print_message "Scripts HocVPS da hoan tat qua trinh cai dat..."
+    printf "Sau day la thong tin server moi cua ban, hay doc can than va luu giu lai\n"
+    printf "de su dung sau nay:\n\n"
+    print_message
+    printf "Domain chinh: http://$server_name/ hoac http://$server_ip/\n"
 fi
 
 print_message
