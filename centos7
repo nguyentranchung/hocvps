@@ -7,7 +7,7 @@
 # curl -sO https://hocvps.com/scripts/$(rpm -E %centos)/install && bash install
 #######################################################
 ROOT_FOLDER="$(pwd)"
-hocvps_version="2.1"
+hocvps_version="2.1.0"
 phpmyadmin_version="4.9.5" # Released 2020-03-21. Older version compatible with PHP 5.5 to 7.4 and MySQL 5.5 and newer. Currently supported for security fixes only.
 extplorer_version="2.1.13" # 05/15/2019 04:43 PM
 extplorer_id="82"
