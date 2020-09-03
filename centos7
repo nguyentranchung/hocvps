@@ -875,10 +875,8 @@ print_message "Cau hinh hoan tat, bat dau them menu hocvps, nhanh thoi..."
 
 >/bin/hocvps
 cat $ROOT_FOLDER/hocvps/hocvps >/bin/hocvps && chmod +x /bin/hocvps
-mkdir /etc/hocvps/menu/
-cd /etc/hocvps/menu/
-wget -q $script_url/component/menu.zip
-unzip -q menu.zip && rm -f menu.zip
+mkdir -p /etc/hocvps/menu/
+/usr/bin/cp component/menu/* /etc/hocvps/menu
 chmod +x /etc/hocvps/menu/*
 
 clear
