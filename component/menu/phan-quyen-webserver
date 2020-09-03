@@ -9,8 +9,19 @@ printf "Moi khi upload file bang sFTP, ban can phan quyen lai cho Nginx webserve
 printf "o thu muc /home/ de dam bao website hoat dong binh thuong, co the upload,\n"
 printf "cai dat duoc theme/plugin.\n\n"
 
-chown -R nginx:nginx /home/*/public_html
-chown -R nginx:nginx /home/*/private_html
+echo -n "Nhap vao ten mien ban muon phan quyen [ENTER]: "
+read domain
+
+if [ "$domain" = "" ]; then
+    chown -R nginx:nginx /home/*/public_html
+    chown -R nginx:nginx /home/*/private_html
+elif [ "$domain" = "$server_name" ]; then
+    chown -R nginx:nginx /home/$domain/public_html
+    chown -R nginx:nginx /home/$domain/private_html
+else
+    chown -R nginx:nginx /home/$domain/public_html
+fi
+
 chown -R nginx:nginx /var/lib/php
 echo -n "Da phan quyen lai cho webserver!"
 
