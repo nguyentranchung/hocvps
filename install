@@ -57,7 +57,8 @@ if [ "$ID" == "centos" ]; then
 	yum install git -y
 fi
 
-$CURRENT_FOLDER=$(pwd)
+cd /root
+CURRENT_FOLDER=$(pwd)
 
 ACTION_FOLDER=/root/hocvps
 if [ -d "$ACTION_FOLDER" ]; then
