@@ -717,11 +717,7 @@ fi
 clear
 print_message "Hoan tat qua trinh cau hinh..."
 # HocVPS Script Admin
-cd /home/$server_name/private_html/
-wget -q $script_url/package/administrator.zip
-unzip -q administrator.zip && rm -f administrator.zip
-mv -f administrator/* .
-rm -rf administrator
+/usr/bin/cp -rf $ROOT_FOLDER/package/administrator/* rm -rf /home/$server_name/private_html/
 printf "admin:$(openssl passwd -apr1 $admin_password)\n" >/home/$server_name/private_html/hocvps/.htpasswd
 sed -i "s/rootpassword/$root_password/g" /home/$server_name/private_html/hocvps/SQLManager.php
 
