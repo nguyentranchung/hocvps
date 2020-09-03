@@ -63,7 +63,7 @@ CURRENT_FOLDER=$(pwd)
 ACTION_FOLDER=/root/hocvps
 if [ -d "$ACTION_FOLDER" ]; then
 	cd $ACTION_FOLDER
-	git reset --HARD
+	git reset --hard
 	git pull
 else
 	mkdir -p $ACTION_FOLDER
