@@ -35,7 +35,7 @@ server_ram_mb=$(echo "scale=0;$server_ram_total/1024" | bc)
 server_hdd=$(df -h | awk 'NR==2 {print $2}')
 server_swap_total=$(awk '/SwapTotal/ {print $2}' /proc/meminfo)
 server_swap_mb=$(echo "scale=0;$server_swap_total/1024" | bc)
-server_ip=$(curl -s $script_root/ip/)
+server_ip=$(curl -s https://hocvps.com/scripts/ip/)
 
 print_message "Thong so server cua ban nhu sau"
 echo "Loai CPU : $cpu_name"
@@ -231,12 +231,12 @@ fi
 
 if [[ "$lessphpmem" = [yY] ]]; then
 	# echo -e "\nCopying php-fpm-min.conf /etc/php-fpm.d/www.conf\n"
-	wget -q $script_root/config/php-fpm/php-fpm-min.conf -O /etc/php-fpm.conf
-	wget -q $script_root/config/php-fpm/www-min.conf -O /etc/php-fpm.d/www.conf
+	/usr/bin/cp $ROOT_FOLDER/config/php-fpm/php-fpm-min.conf /etc/php-fpm.conf
+	/usr/bin/cp $ROOT_FOLDER/config/php-fpm/www-min.conf /etc/php-fpm.d/www.conf
 else
 	# echo -e "\nCopying php-fpm.conf /etc/php-fpm.d/www.conf\n"
-	wget -q $script_root/config/php-fpm/php-fpm.conf -O /etc/php-fpm.conf
-	wget -q $script_root/config/php-fpm/www.conf -O /etc/php-fpm.d/www.conf
+	/usr/bin/cp $ROOT_FOLDER/config/php-fpm/php-fpm.conf /etc/php-fpm.conf
+	/usr/bin/cp $ROOT_FOLDER/config/php-fpm/www.conf /etc/php-fpm.d/www.conf
 fi # lessphpmem
 
 sed -i "s/server_name_here/$server_name/g" /etc/php-fpm.conf
@@ -614,32 +614,32 @@ cp /etc/my.cnf /etc/my.cnf-original
 
 if [[ "$(expr $server_ram_total \<= 2099000)" = "1" ]]; then
 	# echo -e "\nCopying MariaDB my-mdb10-min.cnf file to /etc/my.cnf\n"
-	wget -q $script_root/config/mysql/my-mdb10-min.cnf -O /etc/my.cnf
+	/usr/bin/cp /config/mysql/my-mdb10-min.cnf /etc/my.cnf
 fi
 
 if [[ "$(expr $server_ram_total \> 2100001)" = "1" && "$(expr $server_ram_total \<= 4190000)" = "1" ]]; then
 	# echo -e "\nCopying MariaDB my-mdb10.cnf file to /etc/my.cnf\n"
-	wget -q $script_root/config/mysql/my-mdb10.cnf -O /etc/my.cnf
+	/usr/bin/cp /config/mysql/my-mdb10.cnf /etc/my.cnf
 fi
 
 if [[ "$(expr $server_ram_total \>= 4190001)" = "1" && "$(expr $server_ram_total \<= 8199999)" = "1" ]]; then
 	# echo -e "\nCopying MariaDB my-mdb10-4gb.cnf file to /etc/my.cnf\n"
-	wget -q $script_root/config/mysql/my-mdb10-4gb.cnf -O /etc/my.cnf
+	/usr/bin/cp /config/mysql/my-mdb10-4gb.cnf /etc/my.cnf
 fi
 
 if [[ "$(expr $server_ram_total \>= 8200000)" = "1" && "$(expr $server_ram_total \<= 15999999)" = "1" ]]; then
 	# echo -e "\nCopying MariaDB my-mdb10-8gb.cnf file to /etc/my.cnf\n"
-	wget -q $script_root/config/mysql/my-mdb10-8gb.cnf -O /etc/my.cnf
+	/usr/bin/cp /config/mysql/my-mdb10-8gb.cnf /etc/my.cnf
 fi
 
 if [[ "$(expr $server_ram_total \>= 16000000)" = "1" && "$(expr $server_ram_total \<= 31999999)" = "1" ]]; then
 	# echo -e "\nCopying MariaDB my-mdb10-16gb.cnf file to /etc/my.cnf\n"
-	wget -q $script_root/config/mysql/my-mdb10-16gb.cnf -O /etc/my.cnf
+	/usr/bin/cp /config/mysql/my-mdb10-16gb.cnf /etc/my.cnf
 fi
 
 if [[ "$(expr $server_ram_total \>= 32000000)" = "1" ]]; then
 	# echo -e "\nCopying MariaDB my-mdb10-32gb.cnf file to /etc/my.cnf\n"
-	wget -q $script_root/config/mysql/my-mdb10-32gb.cnf -O /etc/my.cnf
+	/usr/bin/cp /config/mysql/my-mdb10-32gb.cnf /etc/my.cnf
 fi
 
 sed -i "s/server_name_here/$server_name/g" /etc/my.cnf
@@ -673,8 +673,6 @@ chmod 600 /root/.my.cnf
 # Fix MariaDB 10
 systemctl stop mysql.service
 
-wget -q $script_root/config/mysql/mariadb10_3tables.sql
-
 rm -rf /var/lib/mysql/mysql/gtid_slave_pos.ibd
 rm -rf /var/lib/mysql/mysql/innodb_table_stats.ibd
 rm -rf /var/lib/mysql/mysql/innodb_index_stats.ibd
@@ -685,11 +683,10 @@ mysql -e "ALTER TABLE mysql.gtid_slave_pos DISCARD TABLESPACE;" 2>/dev/null
 mysql -e "ALTER TABLE mysql.innodb_table_stats DISCARD TABLESPACE;" 2>/dev/null
 mysql -e "ALTER TABLE mysql.innodb_index_stats DISCARD TABLESPACE;" 2>/dev/null
 
-mysql mysql <mariadb10_3tables.sql
+mysql mysql <$ROOT_FOLDER/config/mysql/mariadb10_3tables.sql
 
 systemctl restart mysql.service
 mysql_upgrade --force mysql
-rm -f mariadb10_3tables.sql
 
 if [ "$1" = "wordpress" ]; then
 	clear
@@ -876,7 +873,7 @@ print_message "Cau hinh hoan tat, bat dau them menu hocvps, nhanh thoi..."
 >/bin/hocvps
 cat $ROOT_FOLDER/hocvps/hocvps >/bin/hocvps && chmod +x /bin/hocvps
 mkdir -p /etc/hocvps/menu/
-/usr/bin/cp component/menu/* /etc/hocvps/menu
+/usr/bin/cp $ROOT_FOLDER/component/menu/* /etc/hocvps/menu
 chmod +x /etc/hocvps/menu/*
 
 clear
