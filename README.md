@@ -44,7 +44,9 @@ Trước khi tiến hành cài đặt, bạn cần nắm một số kiến th�
 Kết nối SSH sử dụng [ZOC Terminal](https://hocvps.com/huong-dan-dung-zoc-terminal-ket-noi-ssh/) hoặc [Putty](https://hocvps.com/huong-dan-dang-nhap-vps-su-dung-putty-windows/) với tài khoản `root`. Nếu tài khoản không có quyền root cần cấp quyền bằng cách chạy lệnh `sudo su`.  
 Chạy lệnh sau để tiến hành cài đặt:
 
+```bash
 curl -sO https://raw.githubusercontent.com/nguyentranchung/hocvps/master/install && bash install
+```
 
 – Cài đặt xong, khi connect SSH VPS bạn hãy sử dụng port 2222, không dùng port 22!  
 – HocVPS Script không hoạt động trên VPS chỉ có IPv6 (gói $2.5 của Vultr)  
