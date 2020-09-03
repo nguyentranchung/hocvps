@@ -1,36 +1,36 @@
 #!/bin/bash
 #######################################################
-# HocVPS Script Installer v1.2
-# To install HocVPS Script type: 
+# HocVPS Script Installer v2.1.0
+# To install HocVPS Script type:
 # curl -sO https://hocvps.com/install && bash install
 #######################################################
 
 if [ $(id -u) != "0" ]; then
-    echo "You need to be root to perform this command. Run \"sudo su\" to become root!"
-    exit
+	echo "You need to be root to perform this command. Run \"sudo su\" to become root!"
+	exit
 fi
 if [ -f /var/cpanel/cpanel.config ]; then
-clear
-echo "Your server installed WHM/Cpanel, please reinstall to use HocVPS Script."
-exit
+	clear
+	echo "Your server installed WHM/Cpanel, please reinstall to use HocVPS Script."
+	exit
 fi
 
 if [ -f /etc/psa/.psa.shadow ]; then
-clear
-echo "Your server installed Plesk, please reinstall to use HocVPS Script."
-exit
+	clear
+	echo "Your server installed Plesk, please reinstall to use HocVPS Script."
+	exit
 fi
 
 if [ -f /etc/init.d/directadmin ]; then
-clear
-echo "Your server installed DirectAdmin, please reinstall to use HocVPS Script."
-exit
+	clear
+	echo "Your server installed DirectAdmin, please reinstall to use HocVPS Script."
+	exit
 fi
 
 if [ -f /etc/init.d/webmin ]; then
-clear
-echo "Your server installed Webmin, please reinstall to use HocVPS Script."
-exit
+	clear
+	echo "Your server installed Webmin, please reinstall to use HocVPS Script."
+	exit
 fi
 
 if [[ -z "$(cat /etc/resolv.conf)" ]]; then
@@ -43,8 +43,11 @@ if [[ -z "$(cat /etc/resolv.conf)" ]]; then
 	exit
 fi
 
-centos_version=$(rpm -E %centos)
-if [ "$centos_version" != "6" ] && [ "$centos_version" != "7" ]; then
+source /etc/os-release
+VERSION_ID=(${VERSION_ID//./ })
+os_version="$ID$VERSION_ID"
+os_version="centos7"
+if [ "$os_version" != "centos6" ] && [ "$os_version" != "centos7" ]; then
 	echo "HocVPS Script is only compatible with CentOS 6 or CentOS 7"
 	echo "aborting script..."
 	exit
@@ -56,17 +59,23 @@ if [ -f /etc/hocvps/scripts.conf ]; then
 	echo "Hay su dung lenh hocvps de truy cap menu quan ly"
 	echo "Chao tam biet !"
 	echo "========================================================================="
-exit
+	exit
 fi
 
-rm -f install*
+if [ "$ID" == "centos" ]; then
+	yum install git -y
+fi
 
-cd /root/
-
-rm -f install*
+ACTION_FOLDER=/root/hocvps
+if [ -d "$ACTION_FOLDER" ]; then
+	rm -rf $ACTION_FOLDER
+fi
+mkdir -p $ACTION_FOLDER
+cd $ACTION_FOLDER
+git clone https://github.com/nguyentranchung/hocvps.git .
 
 if [ "$1" = "wordpress" ]; then
-	curl -sO https://hocvps.com/scripts/$centos_version/install && bash install wordpress
+	bash $os_version wordpress
 else
-	curl -sO https://hocvps.com/scripts/$centos_version/install && bash install
+	bash $os_version
 fi

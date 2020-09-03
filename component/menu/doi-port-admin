@@ -1,4 +1,4 @@
-#!/bin/bash 
+#!/bin/bash
 
 . /etc/hocvps/scripts.conf
 
@@ -7,33 +7,33 @@ printf "                            Doi Port Admin\n"
 printf "=========================================================================\n"
 printf "Port Admin quan ly server hien tai: $admin_port \n\n"
 read -r -p "Ban co muon thay doi khong ? [y/N] " response
-case $response in [yY][eE][sS]|[yY])
-	echo -n "Nhap vao Port Admin moi roi an [ENTER]: " 
+case $response in [yY][eE][sS] | [yY])
+	echo -n "Nhap vao Port Admin moi roi an [ENTER]: "
 	read new_admin_port
 	if [ "$new_admin_port" == "" ] || [ $new_admin_port == "2222" ] || [ $new_admin_port -lt 2000 ] || [ $new_admin_port -gt 9999 ] || [ $(lsof -i -P | grep ":$new_admin_port " | wc -l) != "0" ] || [ "$new_admin_port" == "$admin_port" ]; then
 		echo "Port admin khong phu hop. Exit."
 		exit
 	fi
-	
+
 	sed -i "s/listen $admin_port/listen $new_admin_port/g" /etc/nginx/conf.d/$server_name.conf
 	sed -i "s/port=$admin_port/port=$new_admin_port/g" /etc/fail2ban/jail.local
 	sed -i "s/admin_port=\"$admin_port\"/admin_port=\"$new_admin_port\"/g" /etc/hocvps/scripts.conf
-	
+
 	if [ -f /root/hocvps-script.txt ]; then
 		sed -i "s/:$admin_port\//:$new_admin_port\//g" /root/hocvps-script.txt
 	fi
-	
+
 	# Open port
 	iptables -D INPUT -p tcp --dport $admin_port -j ACCEPT
 	iptables -I INPUT -p tcp --dport $new_admin_port -j ACCEPT
-	iptables-save > /dev/null
-	
+	iptables-save >/dev/null
+
 	nginx -s reload
 
-	echo "Port Admin da duoc doi sang: $new_admin_port " 
-        ;;
-    *)
-        echo "Exit."
-        ;;
+	echo "Port Admin da duoc doi sang: $new_admin_port "
+	;;
+*)
+	echo "Exit."
+	;;
 esac
 exit

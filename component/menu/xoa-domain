@@ -7,31 +7,31 @@ printf "                             Xoa Domain\n"
 printf "=========================================================================\n"
 printf "XOA domain la viec khong the phuc hoi, ban hay can than\n"
 
-echo -n "Nhap vao domain ban muon XOA roi an [ENTER]: " 
+echo -n "Nhap vao domain ban muon XOA roi an [ENTER]: "
 read domain
 
 if [ "$domain" = "$server_name" ]; then
-echo "Ban khong the xoa domain chinh tren server !!!!"
-echo "Chao tam biet...!"
-exit
+    echo "Ban khong the xoa domain chinh tren server !!!!"
+    echo "Chao tam biet...!"
+    exit
 fi
 
 if [ -f /etc/nginx/conf.d/$domain.conf ]; then
-read -r -p "Da phat hien thay $domain, ban co chac muon xoa no khong ? [y/N] " response
-case $response in
-    [yY][eE][sS]|[yY]) 
-rm -rf /home/$domain
-rm -f /etc/nginx/conf.d/$domain.conf
-nginx -s reload
+    read -r -p "Da phat hien thay $domain, ban co chac muon xoa no khong ? [y/N] " response
+    case $response in
+    [yY][eE][sS] | [yY])
+        rm -rf /home/$domain
+        rm -f /etc/nginx/conf.d/$domain.conf
+        nginx -s reload
 
-echo "Xoa domain thanh cong...!"
+        echo "Xoa domain thanh cong...!"
         ;;
     *)
         echo "Chao tam biet....!"
         ;;
-esac
+    esac
 else
-echo "Khong phat hien thay $domain, vui long kiem tra lai!"
-echo "Chao tam biet....!"
-exit
+    echo "Khong phat hien thay $domain, vui long kiem tra lai!"
+    echo "Chao tam biet....!"
+    exit
 fi

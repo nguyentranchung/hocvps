@@ -11,17 +11,23 @@ printf "Khi co phien ban moi, ban co the cap nhat Nginx, PHP, MariaDB cho server
 printf "=========================================================================\n"
 PS3="
 $prompt"
-select opt in "${options[@]}" "Thoat"; do 
+select opt in "${options[@]}" "Thoat"; do
 
-    case "$REPLY" in
-	    1 ) /etc/hocvps/menu/kiem-tra-cap-nhat;;
-	    2 ) /etc/hocvps/menu/cap-nhat-nginx;;
-	    3 ) /etc/hocvps/menu/cap-nhat-php;;
-	    4 ) /etc/hocvps/menu/cap-nhat-mariadb;;
+	case "$REPLY" in
+	1) /etc/hocvps/menu/kiem-tra-cap-nhat ;;
+	2) /etc/hocvps/menu/cap-nhat-nginx ;;
+	3) /etc/hocvps/menu/cap-nhat-php ;;
+	4) /etc/hocvps/menu/cap-nhat-mariadb ;;
 
-	    $(( ${#options[@]}+1 )) ) printf "\nChao tam biet....!\n"; break;;
-	    *) echo "Ban nhap sai, vui long nhap theo so thu tu tren danh sach";continue;;
+	$((${#options[@]} + 1)))
+		printf "\nChao tam biet....!\n"
+		break
+		;;
+	*)
+		echo "Ban nhap sai, vui long nhap theo so thu tu tren danh sach"
+		continue
+		;;
 
-    esac
+	esac
 
 done

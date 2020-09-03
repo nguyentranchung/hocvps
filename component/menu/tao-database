@@ -2,56 +2,56 @@
 
 . /etc/hocvps/scripts.conf
 
-if [ "`systemctl is-active mysql.service`" == "active" ]; then
-printf "=========================================================================\n"
-printf "                             Tao Database\n"
-printf "=========================================================================\n"
-echo -n "Nhap vao ten database ban muon tao roi an [ENTER]: " 
-read dataname
-if [ "$dataname" = "" ]; then
-echo "Ban nhap sai, vui long nhap chinh xac"
-exit
-fi
+if [ "$(systemctl is-active mysql.service)" == "active" ]; then
+	printf "=========================================================================\n"
+	printf "                             Tao Database\n"
+	printf "=========================================================================\n"
+	echo -n "Nhap vao ten database ban muon tao roi an [ENTER]: "
+	read dataname
+	if [ "$dataname" = "" ]; then
+		echo "Ban nhap sai, vui long nhap chinh xac"
+		exit
+	fi
 
-if [ -f /var/lib/mysql/$dataname/db.opt ]; then
-echo "Data $dataname da ton tai tren server"
-echo "Chao tam biet....!"
-exit
-fi
+	if [ -f /var/lib/mysql/$dataname/db.opt ]; then
+		echo "Data $dataname da ton tai tren server"
+		echo "Chao tam biet....!"
+		exit
+	fi
 
-echo -n "Nhap vao username roi an [ENTER]: " 
-read username
-if [ "$username" = "" ]; then
-	username="$dataname"
-	echo "Ban chua nhap, chung ta se dat username la $dataname"
-fi
+	echo -n "Nhap vao username roi an [ENTER]: "
+	read username
+	if [ "$username" = "" ]; then
+		username="$dataname"
+		echo "Ban chua nhap, chung ta se dat username la $dataname"
+	fi
 
-echo -n "Nhap vao mat khau cho user $username [ENTER]: " 
-read password
-if [ "$password" = "" ]; then
-	password="$dataname"
-	echo "Ban chua nhap, chung ta se dat mat khau la $dataname"
-fi
+	echo -n "Nhap vao mat khau cho user $username [ENTER]: "
+	read password
+	if [ "$password" = "" ]; then
+		password="$dataname"
+		echo "Ban chua nhap, chung ta se dat mat khau la $dataname"
+	fi
 
-    cat > "/tmp/config.temp" <<END
+	cat >"/tmp/config.temp" <<END
 CREATE DATABASE $dataname COLLATE utf8_general_ci;
 CREATE USER '$username'@'localhost' IDENTIFIED BY '$password';
 GRANT ALL PRIVILEGES ON $dataname . * TO '$username'@'localhost';
 FLUSH PRIVILEGES;
 END
 
-mysql -u root -p$mariadb_root_password < /tmp/config.temp
-rm -f /tmp/config.temp
+	mysql -u root -p$mariadb_root_password </tmp/config.temp
+	rm -f /tmp/config.temp
 
-echo "Da tao database $dataname thanh cong !"
-echo "==================="
-echo "Thong tin chi tiet:"
-printf "Ten database: $dataname\nTen dang nhap: $username\nMat khau: $password\n\n"
+	echo "Da tao database $dataname thanh cong !"
+	echo "==================="
+	echo "Thong tin chi tiet:"
+	printf "Ten database: $dataname\nTen dang nhap: $username\nMat khau: $password\n\n"
 
-echo "Chao tam biet....!"
+	echo "Chao tam biet....!"
 
 else
-echo "MariaDB chua khoi dong hoac co the bi loi khong the khoi dong!!!"
-echo "Vui long kiem tra lai"
-exit
+	echo "MariaDB chua khoi dong hoac co the bi loi khong the khoi dong!!!"
+	echo "Vui long kiem tra lai"
+	exit
 fi

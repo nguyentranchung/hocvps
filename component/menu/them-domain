@@ -1,39 +1,39 @@
-#!/bin/bash 
+#!/bin/bash
 
 . /etc/hocvps/scripts.conf
 
 printf "=========================================================================\n"
 printf "                             Them Domain\n"
 printf "=========================================================================\n"
-echo -n "Nhap vao domain ban muon them roi an [ENTER]: " 
+echo -n "Nhap vao domain ban muon them roi an [ENTER]: "
 read domain
 if [ "$domain" = "" ]; then
-echo "Ban nhap sai, vui long nhap chinh xac"
-exit
+	echo "Ban nhap sai, vui long nhap chinh xac"
+	exit
 fi
 
 if [ -f /etc/nginx/conf.d/$domain.conf ]; then
-echo "Phat hien thay $domain da ton tai tren he thong"
-echo "Chao tam biet...!"
-exit
+	echo "Phat hien thay $domain da ton tai tren he thong"
+	echo "Chao tam biet...!"
+	exit
 fi
-    mkdir -p /home/$domain/public_html
-    mkdir -p /home/$domain/logs
-    chmod 777 /home/$domain/logs
-    
-    wget -q $script_url/html/index.html -O /home/$domain/public_html/index.html
-    
-    chown nginx:nginx /home/$domain
-    chown -R nginx:nginx /home/*/public_html
-    chown -R nginx:nginx /home/*/private_html
-    chown -R nginx:nginx /var/lib/php
-    
-    domain_alias="www.$domain"
-    if [[ $domain == *www* ]]; then
-	    domain_alias=${domain/www./''}
-    fi
+mkdir -p /home/$domain/public_html
+mkdir -p /home/$domain/logs
+chmod 777 /home/$domain/logs
 
-    cat > "/etc/nginx/conf.d/$domain.conf" <<END
+wget -q $script_url/html/index.html -O /home/$domain/public_html/index.html
+
+chown nginx:nginx /home/$domain
+chown -R nginx:nginx /home/*/public_html
+chown -R nginx:nginx /home/*/private_html
+chown -R nginx:nginx /var/lib/php
+
+domain_alias="www.$domain"
+if [[ $domain == *www* ]]; then
+	domain_alias=${domain/www./''}
+fi
+
+cat >"/etc/nginx/conf.d/$domain.conf" <<END
 server {
 	listen 80;
 	
@@ -44,27 +44,27 @@ server {
 server {
 	listen 80;
 
-    	# access_log off;
+	# access_log off;
 	access_log /home/$domain/logs/access.log;
-    	# error_log off;
-    	error_log /home/$domain/logs/error.log;
+	# error_log off;
+	error_log /home/$domain/logs/error.log;
 	
-    	root /home/$domain/public_html;
+	root /home/$domain/public_html;
 	index index.php index.html index.htm;
-    	server_name $domain;
+	server_name $domain;
 	
 	# Custom configuration
 	include /home/$domain/public_html/*.conf;
  
-    	location / {
+	location / {
 		try_files \$uri \$uri/ /index.php?\$args;
 	}
  
-    	location ~ \.php$ {
+	location ~ \.php$ {
 		fastcgi_split_path_info ^(.+\.php)(/.+)$;
-        	include /etc/nginx/fastcgi_params;
-        	fastcgi_pass 127.0.0.1:9000;
-        	fastcgi_index index.php;
+		include /etc/nginx/fastcgi_params;
+		fastcgi_pass 127.0.0.1:9000;
+		fastcgi_index index.php;
 		fastcgi_connect_timeout 300;
 		fastcgi_send_timeout 300;
 		fastcgi_read_timeout 300;
@@ -73,8 +73,8 @@ server {
 		fastcgi_busy_buffers_size 32k;
 		fastcgi_temp_file_write_size 32k;
 		fastcgi_intercept_errors on;
-        	fastcgi_param SCRIPT_FILENAME /home/$domain/public_html\$fastcgi_script_name;
-    	}
+		fastcgi_param SCRIPT_FILENAME \$document_root\$fastcgi_script_name;
+	}
 	
 	# Disable .htaccess and other hidden files
 	location ~ /\.(?!well-known).* {
@@ -101,18 +101,19 @@ server {
 		access_log off;
 		expires 30d;
 		break;
-        }
+	}
 
-        location ~* \.(txt|js|css)$ {
-	        add_header Pragma public;
+	location ~* \.(txt|js|css)$ {
+		add_header Pragma public;
 		add_header Cache-Control "public, must-revalidate, proxy-revalidate";
 		access_log off;
 		expires 30d;
 		break;
-        }
+	}
 }
 END
-    nginx -s reload
+
+nginx -s reload
 
 echo "$domain da duoc them thanh cong vao server"
 echo "Upload code len /home/$domain/public_html/"

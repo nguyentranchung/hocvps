@@ -2,10 +2,9 @@
 
 . /etc/hocvps/scripts.conf
 
-saoluucode()
-{
+saoluucode() {
 	echo "Dang sao luu $website, vui long doi...."
-	
+
 	mkdir -p /home/$server_name/private_html/backup/$website/
 	cd /home/$website/public_html/
 	tar czf /home/$server_name/private_html/backup/$website/$website.tar.gz .
@@ -18,7 +17,7 @@ saoluucode()
 printf "=========================================================================\n"
 printf "                             Sao Luu Code\n"
 printf "=========================================================================\n"
-echo -n "Nhap vao ten website ban muon sao luu toan bo code roi an [ENTER]: " 
+echo -n "Nhap vao ten website ban muon sao luu toan bo code roi an [ENTER]: "
 read website
 
 if [ -d /home/$website/public_html/ ]; then
@@ -28,19 +27,19 @@ if [ -d /home/$website/public_html/ ]; then
 		exit
 	else
 		echo "Da phat hien thay $website tren server"
-		
+
 		if [ -f /home/$server_name/private_html/backup/$website/$website.tar.gz ]; then
-		read -r -p "Phat hien thay file sao luu cu, xoa no va tao sao luu moi ? [y/N] " response
-		case $response in
-		    [yY][eE][sS]|[yY]) 
-		    	rm -rf /home/$server_name/private_html/backup/$website/
-	
-			saoluucode
-		        ;;
-		    *)
-		        echo "Chao tam biet....!"
-		        ;;
-		esac
+			read -r -p "Phat hien thay file sao luu cu, xoa no va tao sao luu moi ? [y/N] " response
+			case $response in
+			[yY][eE][sS] | [yY])
+				rm -rf /home/$server_name/private_html/backup/$website/
+
+				saoluucode
+				;;
+			*)
+				echo "Chao tam biet....!"
+				;;
+			esac
 		else
 			saoluucode
 		fi

@@ -1,10 +1,10 @@
-#!/bin/bash 
+#!/bin/bash
 
 . /etc/hocvps/scripts.conf
 printf "=========================================================================\n"
 printf "                            Park Domain\n"
 printf "=========================================================================\n"
-echo -n "Them ten mien chay song song roi an [ENTER]: " 
+echo -n "Them ten mien chay song song roi an [ENTER]: "
 read domain
 if [ "$domain" = "" ]; then
 	echo "Ban nhap sai, vui long nhap chinh xac"
@@ -17,7 +17,7 @@ if [ -f /etc/nginx/conf.d/$domain.conf ]; then
 	exit
 fi
 
-echo -n "Nhap vao ten mien dich ma ban muon $domain chay song song voi: " 
+echo -n "Nhap vao ten mien dich ma ban muon $domain chay song song voi: "
 read domain_park
 
 if [ -f /etc/nginx/conf.d/$domain_park.conf ]; then
@@ -25,7 +25,7 @@ if [ -f /etc/nginx/conf.d/$domain_park.conf ]; then
 	echo "Ban co chac muon them $domain vao he thong"
 	read -r -p "Va chay song song voi $domain_park khong ? [y/N] " response
 	case $response in
-		[yY][eE][sS]|[yY]) 
+	[yY][eE][sS] | [yY])
 
 		chown -R nginx:nginx /home/*/public_html
 		chown -R nginx:nginx /home/*/private_html
@@ -36,7 +36,7 @@ if [ -f /etc/nginx/conf.d/$domain_park.conf ]; then
 			domain_alias=${domain/www./''}
 		fi
 
-		cat > "/etc/nginx/conf.d/$domain.conf" <<END
+		cat >"/etc/nginx/conf.d/$domain.conf" <<END
 server {
 	listen 80;
 
@@ -118,13 +118,13 @@ END
 		nginx -s reload
 		echo
 		echo "$domain da duoc them vao he thong va chay song song voi $domain_park"
-	        ;;
-	    *)
-	        echo "Chao tam biet....!"
-	        ;;
+		;;
+	*)
+		echo "Chao tam biet....!"
+		;;
 	esac
-	else
-		echo "Khong phat hien thay $domain_park tren he thong !!!!"
-		echo "Vui long kiem tra va thu lai sau"
-		exit
+else
+	echo "Khong phat hien thay $domain_park tren he thong !!!!"
+	echo "Vui long kiem tra va thu lai sau"
+	exit
 fi

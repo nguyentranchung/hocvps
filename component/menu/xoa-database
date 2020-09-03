@@ -2,44 +2,44 @@
 
 . /etc/hocvps/scripts.conf
 
-if [ "`systemctl is-active mysql.service`" == "active" ]; then
-printf "=========================================================================\n"
-printf "                             Xoa Database\n"
-printf "=========================================================================\n"
-printf "XOA database la viec khong the phuc hoi, ban hay can than\n\n"
-echo -n "Nhap vao ten database ban muon XOA roi an [ENTER]: " 
-read dataname
+if [ "$(systemctl is-active mysql.service)" == "active" ]; then
+    printf "=========================================================================\n"
+    printf "                             Xoa Database\n"
+    printf "=========================================================================\n"
+    printf "XOA database la viec khong the phuc hoi, ban hay can than\n\n"
+    echo -n "Nhap vao ten database ban muon XOA roi an [ENTER]: "
+    read dataname
 
-if [ "$dataname" = "mysql" ] || [ "$dataname" = "infomation_schema" ] || [ "$dataname" = "performance_schema" ]; then
-echo "Ban that dien ro !!!"
-echo "Ban muon xoa data cua he thong ?"
-echo "Chao tam biet...!"
-exit
-fi
+    if [ "$dataname" = "mysql" ] || [ "$dataname" = "infomation_schema" ] || [ "$dataname" = "performance_schema" ]; then
+        echo "Ban that dien ro !!!"
+        echo "Ban muon xoa data cua he thong ?"
+        echo "Chao tam biet...!"
+        exit
+    fi
 
-if [ -f /var/lib/mysql/$dataname/db.opt ]; then
-read -r -p "Da tim thay $dataname, ban co chac muon xoa no khong ? [y/N] " response
-case $response in
-    [yY][eE][sS]|[yY]) 
-    cat > "/tmp/config.temp" <<END
+    if [ -f /var/lib/mysql/$dataname/db.opt ]; then
+        read -r -p "Da tim thay $dataname, ban co chac muon xoa no khong ? [y/N] " response
+        case $response in
+        [yY][eE][sS] | [yY])
+            cat >"/tmp/config.temp" <<END
 drop database $dataname;
 END
 
-mysql -u root -p$mariadb_root_password < /tmp/config.temp
-rm -f /tmp/config.temp
-echo "Da xoa data $dataname thanh cong !"
-        ;;
-    *)
+            mysql -u root -p$mariadb_root_password </tmp/config.temp
+            rm -f /tmp/config.temp
+            echo "Da xoa data $dataname thanh cong !"
+            ;;
+        *)
+            echo "Chao tam biet....!"
+            ;;
+        esac
+    else
+        echo "Data $dataname khong ton tai tren server"
         echo "Chao tam biet....!"
-        ;;
-esac
+        exit
+    fi
 else
-echo "Data $dataname khong ton tai tren server"
-echo "Chao tam biet....!"
-exit
-fi
-else
-echo "MariaDB chua khoi dong hoac co the bi loi khong the khoi dong!!!"
-echo "Vui long kiem tra lai"
-exit
+    echo "MariaDB chua khoi dong hoac co the bi loi khong the khoi dong!!!"
+    echo "Vui long kiem tra lai"
+    exit
 fi

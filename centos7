@@ -1,6 +1,6 @@
 #!/bin/bash
 #######################################################
-# HocVPS Script v2.1 for CentOS 7
+# HocVPS Script v2.1.0 for CentOS 7
 # To install type: 
 # curl -sO https://hocvps.com/install && bash install
 # or

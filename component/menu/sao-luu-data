@@ -2,46 +2,44 @@
 
 . /etc/hocvps/scripts.conf
 
+saoluudata() {
+    echo "Dang sao luu data $dataname..."
+    mkdir -p /home/$server_name/private_html/backup/$dataname
+    cd /home/$server_name/private_html/backup/$dataname
+    mysqldump -u root -p$mariadb_root_password $dataname | gzip -9 >$dataname.sql.gz
 
-saoluudata ()
-{
-echo "Dang sao luu data $dataname..."
-mkdir -p /home/$server_name/private_html/backup/$dataname
-cd /home/$server_name/private_html/backup/$dataname
-mysqldump -u root -p$mariadb_root_password $dataname | gzip -9 > $dataname.sql.gz
-
-echo "Sao luu thanh cong!"
-echo "Duong dan file backup: /home/$server_name/private_html/backup/$dataname/$dataname.sql.gz"
-echo "Link download: http://$server_name:$admin_port/backup/$dataname/$dataname.sql.gz"
+    echo "Sao luu thanh cong!"
+    echo "Duong dan file backup: /home/$server_name/private_html/backup/$dataname/$dataname.sql.gz"
+    echo "Link download: http://$server_name:$admin_port/backup/$dataname/$dataname.sql.gz"
 }
 
 printf "=========================================================================\n"
 printf "                             Sao Luu Data\n"
 printf "=========================================================================\n"
 printf "Sao luu data dang hoat dong co the dan toi file sao luu bi loi !!!\n\n"
-echo -n "Nhap vao ten database ban muon sao luu roi an [ENTER]: " 
+echo -n "Nhap vao ten database ban muon sao luu roi an [ENTER]: "
 read dataname
 
 if [ -f /var/lib/mysql/$dataname/db.opt ]; then
-echo "Da phat hien thay data $dataname tren server"
-if [ -f /home/$server_name/private_html/backup/$dataname/$dataname.sql.gz ]; then
-read -r -p "Phat hien thay file sao luu cu, xoa no va tao sao luu moi ? [y/N] " response
-case $response in
-    [yY][eE][sS]|[yY]) 
-    	rm -rf /home/$server_name/private_html/backup/$dataname
-	
-	saoluudata
-        ;;
-    *)
-        echo "Chao tam biet....!"
-        ;;
-esac
-else
-	saoluudata
-fi
+    echo "Da phat hien thay data $dataname tren server"
+    if [ -f /home/$server_name/private_html/backup/$dataname/$dataname.sql.gz ]; then
+        read -r -p "Phat hien thay file sao luu cu, xoa no va tao sao luu moi ? [y/N] " response
+        case $response in
+        [yY][eE][sS] | [yY])
+            rm -rf /home/$server_name/private_html/backup/$dataname
+
+            saoluudata
+            ;;
+        *)
+            echo "Chao tam biet....!"
+            ;;
+        esac
+    else
+        saoluudata
+    fi
 
 else
-echo "Khong tim thay $dataname tren server, vui long xem lai!"
-echo "Chao tam biet...!"
-exit
+    echo "Khong tim thay $dataname tren server, vui long xem lai!"
+    echo "Chao tam biet...!"
+    exit
 fi
