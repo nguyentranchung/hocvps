@@ -2,7 +2,10 @@ Thông tin các phiên bản **[HocVPS Script](https://github.com/nguyentranchu
 
 ## HocVPS Script v2.1.0 - 2020/09/03
 
-Chung Nguyễn release version đầu tiền trên Github để dễ quản lý.
+Chung Nguyễn release version đầu tiền trên Github để quản lý.
+
+*   Port ssh sẽ tự động chọn ngẫu nhiên từ 2000 - 9999
+*   Port admin sẽ tự động chọn ngẫu nhiên từ 2000 - 9999
 
 ## HocVPS Script v2.0.3 – 6 September, 2017
 

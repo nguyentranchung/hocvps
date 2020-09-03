@@ -107,9 +107,13 @@ if [ "$server_name" = "" ]; then
 	echo "Ban nhap sai, he thong dung $server_name lam ten mien chinh"
 fi
 
-printf "\nNhap vao port admin roi an [ENTER]: "
-read admin_port
-if [ "$admin_port" == "" ] || [ $admin_port == "2222" ] || [ $admin_port -lt 2000 ] || [ $admin_port -gt 9999 ] || [ $(lsof -i -P | grep ":$admin_port " | wc -l) != "0" ]; then
+ssh_port=$((2001 + RANDOM % 7990))
+admin_port=$((2001 + RANDOM % 7990))
+while [ $admin_port = $ssh_port ]; do
+	admin_port=$((2001 + RANDOM % 7990))
+done
+
+if [ "$admin_port" == "" ] || [ $admin_port == $ssh_port ] || [ $admin_port -lt 2000 ] || [ $admin_port -gt 9999 ] || [ $(lsof -i -P | grep ":$admin_port " | wc -l) != "0" ]; then
 	admin_port=$(date +'%Y')
 	echo "Port admin khong phu hop. He thong su dung port mac dinh $admin_port"
 	echo
@@ -823,13 +827,13 @@ cat >"/etc/logrotate.d/mysql" <<END
 END
 
 # Change port SSH
-sed -i 's/#Port 22/Port 2222/g' /etc/ssh/sshd_config
+sed -i "s/#Port 22/Port $ssh_port/g" /etc/ssh/sshd_config
 
 cat >"/etc/fail2ban/jail.local" <<END
 [sshd]
 enabled  = true
 filter   = sshd
-action   = iptables[name=SSH, port=2222, protocol=tcp]
+action   = iptables[name=SSH, port=$ssh_port, protocol=tcp]
 logpath  = /var/log/secure
 maxretry = 3
 bantime = 3600
@@ -853,7 +857,7 @@ if [ -f /etc/sysconfig/iptables ]; then
 	iptables -I INPUT -p tcp --dport 465 -j ACCEPT
 	iptables -I INPUT -p tcp --dport 587 -j ACCEPT
 	iptables -I INPUT -p tcp --dport $admin_port -j ACCEPT
-	iptables -I INPUT -p tcp --dport 2222 -j ACCEPT
+	iptables -I INPUT -p tcp --dport $ssh_port -j ACCEPT
 	service iptables save
 fi
 
@@ -873,6 +877,7 @@ hocvps_version="$hocvps_version"
 server_name="$server_name"
 server_ip="$server_ip"
 admin_port="$admin_port"
+ssh_port="$ssh_port"
 script_url="$script_url"
 mariadb_root_password="$root_password"
 END
@@ -943,7 +948,7 @@ printf " Password: $admin_password\n"
 printf "=========================================================================\n"
 printf "Thong tin quan ly duoc luu tai: /root/hocvps-script.txt \n"
 printf "=========================================================================\n"
-printf "***Luu y: Port dang nhap SSH da duoc doi tu 22 sang 2222 de bao mat VPS\n"
+printf "***Luu y: Port dang nhap SSH da duoc doi tu 22 sang $ssh_port de bao mat VPS\n"
 printf "=========================================================================\n"
 printf "De quan ly server, ban hay dung lenh \"hocvps\" khi ket noi SSH.\n"
 printf "Neu can ho tro, cac ban hay truy cap https://hocvps.com/script/\n"
