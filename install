@@ -47,7 +47,7 @@ source /etc/os-release
 VERSION_ID=(${VERSION_ID//./ })
 OS_VERSION="$ID$VERSION_ID"
 
-if [ "$OS_VERSION" != "centos6" ] && [ "$OS_VERSION" != "centos7" ]; then
+if [ "$OS_VERSION" != "centos6" ] && [ "$OS_VERSION" != "centos7" && [ "$OS_VERSION" != "centos8" ]; then
 	echo "HocVPS Script is only compatible with CentOS 6 or CentOS 7"
 	echo "aborting script..."
 	exit
