@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta http-equiv="content-type" content="text/html; charset=UTF-8">
+	<title>HocVPS Script Admin</title>
+
+	<link type="text/css" href="hocvps/css/screen.css" rel="stylesheet" media="all" />
+</head>
+<body>
+<div class="header">
+	<ul>
+		<?php if($firewall->hasUserAccess()) : ?>
+		<li class="current"><a href=".">Home</a></li>
+		<?php endif; ?>
+		<li><a href="?action=changePassword">Change Password</a></li>
+	</ul>
+</div>
+
+<h1>HocVPS Script Admin</h1>
+
+<div id="main_content">
+	<h2>Hello, <?php echo $userManager->getCurrentUser()->getUsername() ?></h2>
+	
+	<p>Thank you for using HocVPS Script!</p>
+	
+	<h3>Here are some tools to manage your server:</h3>
+	
+	<ul>
+		<li>HocVPS Script Admin: <a href="<?php echo $admin_url; ?>/" target="_blank"><?php echo $admin_url; ?>/</a></li>
+		<li>File Manager: <a href="<?php echo $admin_url; ?>/filemanager/" target="_blank"><?php echo $admin_url; ?>/filemanager/</a></li>
+		<li>phpMyAdmin: <a href="<?php echo $admin_url; ?>/phpmyadmin/" target="_blank"><?php echo $admin_url; ?>/phpmyadmin/</a></li>
+		<li>Server Info: <a href="<?php echo $admin_url; ?>/serverinfo/" target="_blank"><?php echo $admin_url; ?>/serverinfo/</a></li>
+		<li>PHP OPcache Management: <a href="<?php echo $admin_url; ?>/op.php" target="_blank"><?php echo $admin_url; ?>/op.php</a></li>
+	</ul>
+	
+	<p>Default username is <strong>admin</strong> for all tools, password auto generated and stored in file <code>/root/hocvps-script.txt</code></p>
+	
+	<p>You should change default password <a href="?action=changePassword">here</a>.</p>
+	
+	<p>Let me know if you need anything: <a href="http://hocvps.com/script/" target="_blank">http://hocvps.com/script/</a></p>
+</div>
+</body>
+</html>

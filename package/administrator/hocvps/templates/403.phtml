@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta http-equiv="content-type" content="text/html; charset=UTF-8">
+	<title>HocVPS Script Admin</title>
+
+	<link type="text/css" href="hocvps/css/screen.css" rel="stylesheet" media="all" />
+</head>
+<body>
+
+
+<h1>Error 403</h1>
+
+<?php if (isset($_GET['success'])) : ?>
+<div class="flash">
+	<?php if (empty($_GET['message'])) : ?>
+	<div class="success">Password has been changed succesfully.</div>
+	<?php else : ?>
+	<div class="error"><?php echo $_GET['message'] ?></div>
+	<?php endif; ?>
+</div>
+<?php endif; ?>
+
+<div id="main_content">
+	<h2 style="text-align: center; margin-top: 7em;">403</h2>
+	<h3 style="text-align: center; margin-top: 1em;">Access denied</h3>
+</div>
+</body>
+</html>

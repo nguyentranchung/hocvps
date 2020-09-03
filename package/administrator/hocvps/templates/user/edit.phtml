@@ -1,0 +1,57 @@
+<?php
+$tool = (isset($_GET['tool'])) ? $_GET['tool'] : '';
+?>
+<!DOCTYPE html>
+<html>
+<head>
+	<meta http-equiv="content-type" content="text/html; charset=UTF-8">
+	<title>HocVPS Script Admin</title>
+
+	<link type="text/css" href="hocvps/css/screen.css" rel="stylesheet" media="all" />
+</head>
+<body>
+<div class="header">
+	<ul>
+		<?php if($firewall->hasUserAccess()) : ?>
+		<li><a href=".">Home</a></li>
+		<?php endif; ?>
+		<li class="current"><a href="?action=changePassword">Change Password</a></li>
+	</ul>
+</div>
+
+<h1>HocVPS Script Admin</h1>
+
+<?php if (isset($_GET['success'])) : ?>
+<div class="flash">
+	<?php if (empty($_GET['message'])) : ?>
+	<div class="success">Password has been changed succesfully.</div>
+	<?php else : ?>
+	<div class="error"><?php echo $_GET['message'] ?></div>
+	<?php endif; ?>
+</div>
+<?php endif; ?>
+
+<div id="main_content">
+	<p>Change password for <strong>admin</strong> account.</p>
+	<form action="<?php echo $_SERVER["SCRIPT_NAME"] ?>?action=updatePassword" method="post">
+		<fieldset>
+			<label for="tool">Select Tool:</label>
+			<select name="tool" id="tool" class="form-control">
+			  <option></option>
+			  <option value="admin" <?php if ($tool == 'admin') echo 'selected'; ?>>HocVPS Script Admin</option>
+			  <option value="filemanager" <?php if ($tool == 'filemanager') echo 'selected'; ?>>File Manager</option>
+			  <option value="phpmyadmin" <?php if ($tool == 'phpmyadmin') echo 'selected'; ?>>phpMyAdmin</option>
+			</select>
+		</fieldset>
+		<fieldset>
+			<label for="password">New Password:</label>
+			<input type="password" name="password" id="password" size="30" />
+		</fieldset>
+		<fieldset>
+			<label></label>
+			<input type="submit" value="Submit" />
+		</fieldset>
+	</form>
+</div>
+</body>
+</html>
