@@ -873,7 +873,7 @@ chmod +x /etc/hocvps/menu/*
 clear
 cat >"/root/hocvps-script.txt" <<END
 =========================================================================
-                           MANAGE VPS INFORMATION
+                        MANAGE VPS INFORMATION
 =========================================================================
 Lenh truy cap menu HocVPS Script: hocvps
 
