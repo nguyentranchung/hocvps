@@ -6,6 +6,7 @@ Chung Nguyễn release version đầu tiền trên Github để quản lý.
 
 *   Port ssh sẽ tự động chọn ngẫu nhiên từ 2000 - 9999
 *   Port admin sẽ tự động chọn ngẫu nhiên từ 2000 - 9999
+*   Hỗ trợ PHP 7.4
 
 ## HocVPS Script v2.0.3 – 6 September, 2017
 
