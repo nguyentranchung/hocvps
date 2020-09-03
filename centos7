@@ -61,7 +61,6 @@ printf "Ban hay lua chon phien ban PHP muon su dung:\n"
 prompt="Nhap vao lua chon cua ban [1-5]: "
 php_version="7.4"; # Default PHP 7.4
 options=("PHP 7.4" "PHP 7.3" "PHP 7.2" "PHP 7.1" "PHP 7.0" "PHP 5.6")
-PS3="$prompt"
 select opt in "${options[@]}"; do 
 
     case "$REPLY" in
