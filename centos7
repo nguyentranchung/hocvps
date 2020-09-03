@@ -141,7 +141,7 @@ yum-config-manager --enable remi
 if [ "$php_version" = "7.4" ]; then
 	yum-config-manager --enable remi-php74
 	yum -y install nginx php-fpm php-common php-gd php-mysqlnd php-pdo php-xml php-mbstring php-mcrypt php-curl php-opcache php-cli php-pecl-zip
-if [ "$php_version" = "7.3" ]; then
+elif [ "$php_version" = "7.3" ]; then
 	yum-config-manager --enable remi-php73
 	yum -y install nginx php-fpm php-common php-gd php-mysqlnd php-pdo php-xml php-mbstring php-mcrypt php-curl php-opcache php-cli php-pecl-zip
 elif [ "$php_version" = "7.2" ]; then
