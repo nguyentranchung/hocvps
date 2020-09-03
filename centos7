@@ -879,11 +879,11 @@ Lenh truy cap menu HocVPS Script: hocvps
 
 Domain chinh: http://$server_name/ hoac http://$server_ip/
 
-HocVPS Script Admin:	http://$server_name:$admin_port/ hoac http://$server_ip:$admin_port/
-File Manager:		http://$server_name:$admin_port/filemanager/ hoac http://$server_ip:$admin_port/filemanager/
-phpMyAdmin:		http://$server_name:$admin_port/phpmyadmin/ hoac http://$server_ip:$admin_port/phpmyadmin/
-Server Info:		http://$server_name:$admin_port/serverinfo/ hoac http://$server_ip:$admin_port/serverinfo/
-PHP OPcache:		http://$server_name:$admin_port/op.php hoac http://$server_ip:$admin_port/op.php
+HocVPS Script Admin: http://$server_name:$admin_port/ hoac http://$server_ip:$admin_port/
+File Manager:		 http://$server_name:$admin_port/filemanager/ hoac http://$server_ip:$admin_port/filemanager/
+phpMyAdmin:		     http://$server_name:$admin_port/phpmyadmin/ hoac http://$server_ip:$admin_port/phpmyadmin/
+Server Info:		 http://$server_name:$admin_port/serverinfo/ hoac http://$server_ip:$admin_port/serverinfo/
+PHP OPcache:		 http://$server_name:$admin_port/op.php hoac http://$server_ip:$admin_port/op.php
 
 Thong tin dang nhap mac dinh cho tat ca tool:
 Username: admin
