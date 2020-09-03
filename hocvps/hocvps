@@ -11,8 +11,7 @@ printf "               HocVPS Script v$hocvps_version - http://hocvps.com/script
 printf "=========================================================================\n"
 printf "                             HocVPS Menu\n"
 printf "=========================================================================\n"
-PS3="
-$prompt"
+
 select opt in "${options[@]}" "Thoat"; do
 
 	case "$REPLY" in
