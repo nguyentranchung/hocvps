@@ -6,54 +6,55 @@
 #######################################################
 
 if [ $(id -u) != "0" ]; then
-	echo "You need to be root to perform this command. Run \"sudo su\" to become root!"
-	exit
+    echo "You need to be root to perform this command. Run \"sudo su\" to become root!"
+    exit
 fi
 if [ -f /var/cpanel/cpanel.config ]; then
-	clear
-	echo "Your server installed WHM/Cpanel, please reinstall to use HocVPS Script."
-	exit
+    clear
+    echo "Your server installed WHM/Cpanel, please reinstall to use HocVPS Script."
+    exit
 fi
 
 if [ -f /etc/psa/.psa.shadow ]; then
-	clear
-	echo "Your server installed Plesk, please reinstall to use HocVPS Script."
-	exit
+    clear
+    echo "Your server installed Plesk, please reinstall to use HocVPS Script."
+    exit
 fi
 
 if [ -f /etc/init.d/directadmin ]; then
-	clear
-	echo "Your server installed DirectAdmin, please reinstall to use HocVPS Script."
-	exit
+    clear
+    echo "Your server installed DirectAdmin, please reinstall to use HocVPS Script."
+    exit
 fi
 
 if [ -f /etc/init.d/webmin ]; then
-	clear
-	echo "Your server installed Webmin, please reinstall to use HocVPS Script."
-	exit
+    clear
+    echo "Your server installed Webmin, please reinstall to use HocVPS Script."
+    exit
 fi
 
 if [[ -z "$(cat /etc/resolv.conf)" ]]; then
-	echo ""
-	echo "/etc/resolv.conf is empty. No nameserver resolvers detected !! "
-	echo "Please configure your /etc/resolv.conf correctly or you will not"
-	echo "be able to use the internet or download from your server."
-	echo "aborting script... please re-run install"
-	echo ""
-	exit
+    echo ""
+    echo "/etc/resolv.conf is empty. No nameserver resolvers detected !! "
+    echo "Please configure your /etc/resolv.conf correctly or you will not"
+    echo "be able to use the internet or download from your server."
+    echo "aborting script... please re-run install"
+    echo ""
+    exit
 fi
 
 source /etc/os-release
 VERSION_ID=(${VERSION_ID//./ })
 OS_VERSION="$ID$VERSION_ID"
 if [[ ("$OS_VERSION" != "centos6") && ("$OS_VERSION" != "centos7") && ("$OS_VERSION" != "centos8") ]]; then
-	echo "HocVPS Script is only compatible with CentOS 6 or CentOS 7 or CentOS 8"
-	echo "aborting script..."
-	exit
+    echo "HocVPS Script is only compatible with CentOS 6 or CentOS 7 or CentOS 8"
+    echo "aborting script after 5 seconds..."
+    sleep 5
+    exit
 fi
 
 if [ "$ID" == "centos" ]; then
-	yum install git -y
+    yum install git -y
 fi
 
 cd /root
@@ -61,30 +62,30 @@ CURRENT_FOLDER=$(pwd)
 
 ACTION_FOLDER=/root/hocvps
 if [ -d "$ACTION_FOLDER" ]; then
-	cd $ACTION_FOLDER
-	git reset --hard -q
-	git pull -q
+    cd $ACTION_FOLDER
+    git reset --hard -q
+    git pull -q
 else
-	mkdir -p $ACTION_FOLDER
-	cd $ACTION_FOLDER
-	git clone https://github.com/nguyentranchung/hocvps.git .
+    mkdir -p $ACTION_FOLDER
+    cd $ACTION_FOLDER
+    git clone https://github.com/nguyentranchung/hocvps.git .
 fi
 
 git checkout centos8
 
 if [ -f /etc/hocvps/scripts.conf ]; then
-	echo "========================================================================="
-	echo "Server/VPS cua ban da cai san HocVPS Script"
-	echo "Hay su dung lenh hocvps de truy cap menu quan ly"
-	echo "Chao tam biet!"
-	echo "========================================================================="
-	exit
+    echo "========================================================================="
+    echo "Your Server/VPS has already installed HocVPS Script"
+    echo "Use the hocvps command to access the management menu"
+    echo "Goodbye!"
+    echo "========================================================================="
+    exit
 fi
 
 rm -f $CURRENT_FOLDER/install*
 
 if [ "$1" = "wordpress" ]; then
-	bash $OS_VERSION wordpress
+    bash $OS_VERSION wordpress
 else
-	bash $OS_VERSION
+    bash $OS_VERSION
 fi
