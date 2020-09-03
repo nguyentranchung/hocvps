@@ -11,7 +11,6 @@ hocvps_version="2.1.0"
 phpmyadmin_version="4.9.5" # Released 2020-03-21. Older version compatible with PHP 5.5 to 7.4 and MySQL 5.5 and newer. Currently supported for security fixes only.
 extplorer_version="2.1.13" # 05/15/2019 04:43 PM
 extplorer_id="82"
-script_url="https://hocvps.com/scripts/7"
 low_ram='262144' # 256MB
 LINE="========================================================================="
 print_message() {
@@ -723,9 +722,7 @@ sed -i "s/rootpassword/$root_password/g" /home/$server_name/private_html/hocvps/
 
 # Server Info
 mkdir /home/$server_name/private_html/serverinfo/
-cd /home/$server_name/private_html/serverinfo/
-wget -q $script_url/package/serverinfo.zip
-unzip -q serverinfo.zip && rm -f serverinfo.zip
+/usr/bin/cp -rf $ROOT_FOLDER/package/serverinfo.php /home/$server_name/private_html/serverinfo/index.php
 
 # phpMyAdmin
 mkdir /home/$server_name/private_html/phpmyadmin/
@@ -857,7 +854,6 @@ server_name="$server_name"
 server_ip="$server_ip"
 admin_port="$admin_port"
 ssh_port="$ssh_port"
-script_url="$script_url"
 mariadb_root_password="$root_password"
 END
 chmod 600 /etc/hocvps/scripts.conf
