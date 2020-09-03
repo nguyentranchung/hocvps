@@ -739,6 +739,7 @@ mysql -e "CREATE USER 'pma'@'localhost' IDENTIFIED BY '$pmapass';" 2>/dev/null
 mysql -e "GRANT SELECT, INSERT, UPDATE, DELETE ON phpmyadmin.* TO 'pma'@'localhost'  IDENTIFIED BY '$pmapass';;" 2>/dev/null
 sed -i "s/\/\/ \$cfg\['Servers'\]\[\$i\]\['controluser'\] = 'pma'/\$cfg\['Servers'\]\[\$i\]\['controluser'\] = 'pma'/" config.inc.php
 sed -i "s/\/\/ \$cfg\['Servers'\]\[\$i\]\['controlpass'\] = 'pmapass'/\$cfg\['Servers'\]\[\$i\]\['controlpass'\] = '$pmapass'/" config.inc.php
+
 # eXtplorer File Manager
 mkdir /home/$server_name/private_html/filemanager/
 cd /home/$server_name/private_html/filemanager/
