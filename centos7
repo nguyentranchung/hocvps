@@ -14,13 +14,18 @@ extplorer_id="82"
 script_root="https://hocvps.com/scripts"
 script_url="https://hocvps.com/scripts/7"
 low_ram='262144' # 256MB
-
+LINE="========================================================================="
+print_message() {
+	if [ "$1" == "" ]; then
+		printf "$LINE\n"
+	else
+		printf "$LINE\n$1\n$LINEs\n"
+	fi
+}
 yum -y install gawk bc wget lsof
 
 clear
-printf "=========================================================================\n"
-printf "Chung ta se kiem tra cac thong so VPS cua ban de dua ra cai dat hop ly \n"
-printf "=========================================================================\n"
+print_message "Chung ta se kiem tra cac thong so VPS cua ban de dua ra cai dat hop ly"
 
 cpu_name=$(awk -F: '/model name/ {name=$2} END {print name}' /proc/cpuinfo)
 cpu_cores=$(awk -F: '/model name/ {core++} END {print core}' /proc/cpuinfo)
@@ -32,9 +37,7 @@ server_swap_total=$(awk '/SwapTotal/ {print $2}' /proc/meminfo)
 server_swap_mb=$(echo "scale=0;$server_swap_total/1024" | bc)
 server_ip=$(curl -s $script_root/ip/)
 
-printf "=========================================================================\n"
-printf "Thong so server cua ban nhu sau \n"
-printf "=========================================================================\n"
+print_message "Thong so server cua ban nhu sau"
 echo "Loai CPU : $cpu_name"
 echo "Tong so CPU core : $cpu_cores"
 echo "Toc do moi core : $cpu_freq MHz"
@@ -42,23 +45,19 @@ echo "Tong dung luong RAM : $server_ram_mb MB"
 echo "Tong dung luong swap : $server_swap_mb MB"
 echo "Tong dung luong o dia : $server_hdd GB"
 echo "IP cua server la : $server_ip"
-printf "=========================================================================\n"
-printf "=========================================================================\n"
+print_message
 
 if [ $server_ram_total -lt $low_ram ]; then
-	echo -e "Canh bao: dung luong RAM qua thap de cai HocVPS Script \n (it nhat 256MB) \n"
-	echo "huy cai dat..."
+	echo -e "Canh bao: dung luong RAM qua thap de cai HocVPS Script \n====> (it nhat 256MB) \nhuy cai dat..."
 	exit
 fi
 sleep 3
 
 clear
-printf "=========================================================================\n"
-printf "Chuan bi qua trinh cai dat... \n"
-printf "=========================================================================\n"
+print_message "Chuan bi qua trinh cai dat..."
 
 printf "Ban hay lua chon phien ban PHP muon su dung:\n"
-prompt="Nhap vao lua chon cua ban [1-5]: "
+prompt="Nhap vao lua chon cua ban [1-6]: "
 php_version="7.4" # Default PHP 7.4
 options=("PHP 7.4" "PHP 7.3" "PHP 7.2" "PHP 7.1" "PHP 7.0" "PHP 5.6")
 select opt in "${options[@]}"; do
@@ -100,7 +99,7 @@ select opt in "${options[@]}"; do
 
 done
 
-printf "\nNhap vao ten mien chinh (non-www hoac www) roi an [ENTER]: "
+print_message "Nhap vao ten mien chinh (non-www hoac www) roi an [ENTER]: "
 read server_name
 if [ "$server_name" = "" ]; then
 	server_name="hocvps.com"
@@ -119,9 +118,7 @@ if [ "$admin_port" == "" ] || [ $admin_port == $ssh_port ] || [ $admin_port -lt 
 	echo
 fi
 
-printf "=========================================================================\n"
-printf "Hoan tat qua trinh chuan bi... \n"
-printf "=========================================================================\n"
+print_message "Hoan tat qua trinh chuan bi..."
 
 rm -f /etc/localtime
 ln -sf /usr/share/zoneinfo/Asia/Ho_Chi_Minh /etc/localtime
@@ -155,9 +152,7 @@ yum clean all
 yum -y update
 
 clear
-printf "=========================================================================\n"
-printf "Chuan bi xong, bat dau cai dat server... \n"
-printf "=========================================================================\n"
+print_message "Chuan bi xong, bat dau cai dat server..."
 sleep 3
 
 # Install Nginx, PHP-FPM and modules
@@ -197,9 +192,7 @@ ntpdate asia.pool.ntp.org
 hwclock --systohc
 
 clear
-printf "=========================================================================\n"
-printf "Cai dat xong, bat dau cau hinh server... \n"
-printf "=========================================================================\n"
+print_message "Cai dat xong, bat dau cau hinh server..."
 sleep 3
 
 # Autostart
@@ -480,7 +473,7 @@ server {
 	
 	root /home/$server_name/public_html;
 	index index.php index.html index.htm;
-    	server_name $server_name;
+	server_name $server_name;
  
 	location / {
 		try_files \$uri \$uri/ /index.php?\$args;
@@ -656,9 +649,7 @@ rm -f /var/lib/mysql/ib_logfile1
 rm -f /var/lib/mysql/ibdata1
 
 clear
-printf "=========================================================================\n"
-printf "Thiet lap co ban cho MariaDB ... \n"
-printf "=========================================================================\n"
+print_message "Thiet lap co ban cho MariaDB..."
 # Random password for MySQL root account
 root_password=$(date | md5sum | cut -c '14-30')
 sleep 1
@@ -702,9 +693,7 @@ rm -f mariadb10_3tables.sql
 
 if [ "$1" = "wordpress" ]; then
 	clear
-	printf "=========================================================================\n"
-	printf "Cai dat WordPress... \n"
-	printf "=========================================================================\n"
+	print_message "Cai dat WordPress..."
 	cd /home/$server_name/public_html/
 	rm -f index.html
 	# Generate wordpress database
@@ -730,9 +719,7 @@ if [ "$1" = "wordpress" ]; then
 fi
 
 clear
-printf "=========================================================================\n"
-printf "Hoan tat qua trinh cau hinh... \n"
-printf "=========================================================================\n"
+print_message "Hoan tat qua trinh cau hinh..."
 # HocVPS Script Admin
 cd /home/$server_name/private_html/
 wget -q $script_url/package/administrator.zip
@@ -884,9 +871,7 @@ END
 chmod 600 /etc/hocvps/scripts.conf
 
 clear
-printf "=========================================================================\n"
-printf "Cau hinh hoan tat, bat dau them menu hocvps, nhanh thoi... \n"
-printf "=========================================================================\n"
+print_message "Cau hinh hoan tat, bat dau them menu hocvps, nhanh thoi..."
 
 >/bin/hocvps
 cat $ROOT_FOLDER/hocvps/hocvps >/bin/hocvps && chmod +x /bin/hocvps
@@ -921,38 +906,32 @@ END
 chmod 600 /root/hocvps-script.txt
 
 if [ "$1" = "wordpress" ]; then
-	printf "=========================================================================\n"
-	printf "Hoan tat qua trinh cai dat HocVPS Script + WordPress! \n"
-	printf "=========================================================================\n"
+	print_message "Hoan tat qua trinh cai dat HocVPS Script + WordPress!"
 	printf "Tiep theo ban hay truy cap http://$server_name \n hoac http://$server_ip de cau hinh WordPress \n"
 else
-	printf "=========================================================================\n"
-	printf "Scripts HocVPS da hoan tat qua trinh cai dat... \n"
-	printf "=========================================================================\n"
+	print_message "Scripts HocVPS da hoan tat qua trinh cai dat..."
 	printf "Sau day la thong tin server moi cua ban, hay doc can than va luu giu lai\n"
 	printf "de su dung sau nay:\n\n"
-	printf "=========================================================================\n"
+	print_message
 	printf "Domain chinh: http://$server_name/ hoac http://$server_ip/\n"
 fi
 
-printf "=========================================================================\n"
+print_message
 printf "HocVPS Script Admin: http://$server_name:$admin_port/ \n hoac http://$server_ip:$admin_port/\n\n"
 printf "File Manager: http://$server_name:$admin_port/filemanager/ \n hoac http://$server_ip:$admin_port/filemanager/\n\n"
 printf "phpMyAdmin: http://$server_name:$admin_port/phpmyadmin/ \n hoac http://$server_ip:$admin_port/phpmyadmin/\n\n"
 printf "Server Info: http://$server_name:$admin_port/serverinfo/ \n hoac http://$server_ip:$admin_port/serverinfo/\n\n"
 printf "PHP OPcache: http://$server_name:$admin_port/op.php \n hoac http://$server_ip:$admin_port/op.php\n"
-printf "=========================================================================\n"
+print_message
 printf "Thong tin dang nhap mac dinh cho tat ca tool:\n"
 printf " Username: admin\n"
 printf " Password: $admin_password\n"
-printf "=========================================================================\n"
-printf "Thong tin quan ly duoc luu tai: /root/hocvps-script.txt \n"
-printf "=========================================================================\n"
+print_message "Thong tin quan ly duoc luu tai: /root/hocvps-script.txt"
 printf "***Luu y: Port dang nhap SSH da duoc doi tu 22 sang $ssh_port de bao mat VPS\n"
-printf "=========================================================================\n"
+print_message
 printf "De quan ly server, ban hay dung lenh \"hocvps\" khi ket noi SSH.\n"
 printf "Neu can ho tro, cac ban hay truy cap https://hocvps.com/script/\n"
-printf "=========================================================================\n"
+print_message
 printf "Server se tu dong khoi dong lai sau 3s nua.... \n\n"
 sleep 3
 reboot
