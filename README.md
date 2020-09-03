@@ -28,7 +28,7 @@ Ngoài ra, webserver sẽ được tự động tối ưu cấu hình để đ�
 10.  Theo dõi tình trạng server ngay trên web, có thể sử dụng mobile truy cập mọi nơi.
 11.  [Thay đổi port SSH](https://hocvps.com/cac-buoc-thay-doi-ssh-port-cua-server/) mặc định từ 22 sang 2222 hạn chế SSH Brute Force Attack, kèm theo [Fail2ban](https://hocvps.com/cai-dat-fail2ban-tren-centos/) block IP ngay nếu phát hiện login sai 3 lần (áp dụng cả SSH và HocVPS Script Admin).
 12.  Toàn bộ thông tin quản lý sẽ được lưu trong file text ở `/root/hocvps-script.txt`
-13.  Tham khảo thêm tính năng mới trong [Changelog](https://hocvps.com/changelog/).
+13.  Tham khảo thêm tính năng mới trong [Changelog](https://github.com/nguyentranchung/hocvps/blob/master/CHANGELOG.md).
 
 **Yêu cầu hệ thống:**
 
