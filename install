@@ -71,6 +71,8 @@ else
 	git clone https://github.com/nguyentranchung/hocvps.git .
 fi
 
+git checkout centos8
+
 if [ -f /etc/hocvps/scripts.conf ]; then
 	echo "========================================================================="
 	echo "Server/VPS cua ban da cai san HocVPS Script"
