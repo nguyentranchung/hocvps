@@ -45,9 +45,9 @@ fi
 
 source /etc/os-release
 VERSION_ID=(${VERSION_ID//./ })
-os_version="$ID$VERSION_ID"
-os_version="centos7"
-if [ "$os_version" != "centos6" ] && [ "$os_version" != "centos7" ]; then
+OS_VERSION="$ID$VERSION_ID"
+
+if [ "$OS_VERSION" != "centos6" ] && [ "$OS_VERSION" != "centos7" ]; then
 	echo "HocVPS Script is only compatible with CentOS 6 or CentOS 7"
 	echo "aborting script..."
 	exit
@@ -57,7 +57,7 @@ if [ -f /etc/hocvps/scripts.conf ]; then
 	echo "========================================================================="
 	echo "Server/VPS cua ban da cai san HocVPS Script"
 	echo "Hay su dung lenh hocvps de truy cap menu quan ly"
-	echo "Chao tam biet !"
+	echo "Chao tam biet!"
 	echo "========================================================================="
 	exit
 fi
@@ -68,14 +68,17 @@ fi
 
 ACTION_FOLDER=/root/hocvps
 if [ -d "$ACTION_FOLDER" ]; then
-	rm -rf $ACTION_FOLDER
+	cd $ACTION_FOLDER
+	git reset --HARD
+	git pull
+else
+	mkdir -p $ACTION_FOLDER
+	cd $ACTION_FOLDER
+	git clone https://github.com/nguyentranchung/hocvps.git .
 fi
-mkdir -p $ACTION_FOLDER
-cd $ACTION_FOLDER
-git clone https://github.com/nguyentranchung/hocvps.git .
 
 if [ "$1" = "wordpress" ]; then
-	bash $os_version wordpress
+	bash $OS_VERSION wordpress
 else
-	bash $os_version
+	bash $OS_VERSION
 fi
