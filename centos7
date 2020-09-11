@@ -196,7 +196,7 @@ sleep 3
 # Autostart
 systemctl enable nginx.service
 systemctl enable php-fpm.service
-systemctl enable mysql.service # Failed to execute operation: No such file or directory
+systemctl enable mysql.service
 systemctl enable fail2ban.service
 systemctl enable iptables.service
 systemctl enable ip6tables.service
@@ -228,14 +228,12 @@ if [ "$check_phplowmem" == "1" ]; then
 fi
 
 if [[ "$lessphpmem" = [yY] ]]; then
-    # echo -e "\nCopying php-fpm-min.conf /etc/php-fpm.d/www.conf\n"
     /usr/bin/cp $ROOT_FOLDER/config/php-fpm/php-fpm-min.conf /etc/php-fpm.conf
     /usr/bin/cp $ROOT_FOLDER/config/php-fpm/www-min.conf /etc/php-fpm.d/www.conf
 else
-    # echo -e "\nCopying php-fpm.conf /etc/php-fpm.d/www.conf\n"
     /usr/bin/cp $ROOT_FOLDER/config/php-fpm/php-fpm.conf /etc/php-fpm.conf
     /usr/bin/cp $ROOT_FOLDER/config/php-fpm/www.conf /etc/php-fpm.d/www.conf
-fi # lessphpmem
+fi
 
 sed -i "s/server_name_here/$server_name/g" /etc/php-fpm.conf
 sed -i "s/server_name_here/$server_name/g" /etc/php-fpm.d/www.conf
