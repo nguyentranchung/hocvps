@@ -895,9 +895,6 @@ Thong tin dang nhap mac dinh cho tat ca tool:
 Username: admin
 Password: $admin_password
 
-Thong tin dang nhap mysql:
-Mysql Root Password: $mariadb_root_password
-
 Neu can ho tro, cac ban hay truy cap https://hocvps.com/script/
 END
 
