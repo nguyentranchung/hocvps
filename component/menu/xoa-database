@@ -2,7 +2,7 @@
 
 . /etc/hocvps/scripts.conf
 
-if [ "$(systemctl is-active mysql.service)" == "active" ]; then
+if [ "$(systemctl is-active mariadb.service)" == "active" ]; then
     printf "=========================================================================\n"
     printf "                             Xoa Database\n"
     printf "=========================================================================\n"
