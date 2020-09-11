@@ -1,6 +1,6 @@
 #!/bin/bash
 #######################################################
-# HocVPS Script v2.1.0 for CentOS 7
+# HocVPS Script v2.1.0 for CentOS 8
 # To install type:
 # curl -sO https://hocvps.com/install && bash install
 # or
@@ -346,17 +346,18 @@ END
 systemctl restart php-fpm.service
 
 # Nginx #
+worker_connections=`expr $cpu_cores \* 1024`
 cat >"/etc/nginx/nginx.conf" <<END
 
 user nginx;
-worker_processes auto;
+worker_processes $cpu_cores;
 worker_rlimit_nofile 260000;
 
 error_log  /var/log/nginx/error.log warn;
 pid        /var/run/nginx.pid;
 
 events {
-	worker_connections  2048;
+	worker_connections $worker_connections;
 	accept_mutex off;
 	accept_mutex_delay 200ms;
 	use epoll;
@@ -498,7 +499,7 @@ server {
 
 	location /nginx_status {
   		stub_status on;
-  		access_log   off;
+  		access_log  off;
 		allow 127.0.0.1;
 		allow $server_ip;
 		deny all;
@@ -649,22 +650,22 @@ rm -f /var/lib/mysql/ibdata1
 clear
 print_message "Thiet lap co ban cho MariaDB..."
 # Random password for MySQL root account
-root_password=$(date | md5sum | cut -c '14-30')
+mariadb_root_password=$(date | md5sum | cut -c '14-30')
 sleep 1
 # Random password for MySQL admin account
 admin_password=$(date | md5sum | cut -c '14-30')
-'/usr/bin/mysqladmin' -u root password "$root_password"
-mysql -u root -p"$root_password" -e "GRANT ALL PRIVILEGES ON *.* TO 'admin'@'localhost' IDENTIFIED BY '$admin_password' WITH GRANT OPTION;"
-mysql -u root -p"$root_password" -e "DELETE FROM mysql.user WHERE User='root' AND Host NOT IN ('localhost')"
-mysql -u root -p"$root_password" -e "DELETE FROM mysql.user WHERE User=''"
-mysql -u root -p"$root_password" -e "DROP User '';"
-mysql -u root -p"$root_password" -e "DROP DATABASE test"
-mysql -u root -p"$root_password" -e "FLUSH PRIVILEGES"
+'/usr/bin/mysqladmin' -u root password "$mariadb_root_password"
+mysql -u root -p"$mariadb_root_password" -e "GRANT ALL PRIVILEGES ON *.* TO 'admin'@'localhost' IDENTIFIED BY '$admin_password' WITH GRANT OPTION;"
+mysql -u root -p"$mariadb_root_password" -e "DELETE FROM mysql.user WHERE User='root' AND Host NOT IN ('localhost')"
+mysql -u root -p"$mariadb_root_password" -e "DELETE FROM mysql.user WHERE User=''"
+mysql -u root -p"$mariadb_root_password" -e "DROP User '';"
+mysql -u root -p"$mariadb_root_password" -e "DROP DATABASE test"
+mysql -u root -p"$mariadb_root_password" -e "FLUSH PRIVILEGES"
 
 cat >"/root/.my.cnf" <<END
 [client]
 user=root
-password=$root_password
+password=$mariadb_root_password
 END
 chmod 600 /root/.my.cnf
 
@@ -694,7 +695,7 @@ if [ "$1" = "wordpress" ]; then
     # Generate wordpress database
     wordpress_password=$(date | md5sum | cut -c '1-15')
     secure_table_prefix=$(date | md5sum | cut -c '1-5')
-    mysql -u root -p"$root_password" -e "CREATE DATABASE wordpress;GRANT ALL PRIVILEGES ON wordpress.* TO wordpress@localhost IDENTIFIED BY '$wordpress_password';FLUSH PRIVILEGES;"
+    mysql -u root -p"$mariadb_root_password" -e "CREATE DATABASE wordpress;GRANT ALL PRIVILEGES ON wordpress.* TO wordpress@localhost IDENTIFIED BY '$wordpress_password';FLUSH PRIVILEGES;"
 
     # Download latest WordPress and uncompress
     wget https://wordpress.org/latest.tar.gz
@@ -718,7 +719,7 @@ print_message "Hoan tat qua trinh cau hinh..."
 # HocVPS Script Admin
 /usr/bin/cp -rf $ROOT_FOLDER/package/administrator/* rm -rf /home/$server_name/private_html/
 printf "admin:$(openssl passwd -apr1 $admin_password)\n" >/home/$server_name/private_html/hocvps/.htpasswd
-sed -i "s/rootpassword/$root_password/g" /home/$server_name/private_html/hocvps/SQLManager.php
+sed -i "s/rootpassword/$mariadb_root_password/g" /home/$server_name/private_html/hocvps/SQLManager.php
 
 # Server Info
 mkdir /home/$server_name/private_html/serverinfo/
@@ -862,7 +863,7 @@ server_name="$server_name"
 server_ip="$server_ip"
 admin_port="$admin_port"
 ssh_port="$ssh_port"
-mariadb_root_password="$root_password"
+mariadb_root_password="$mariadb_root_password"
 END
 chmod 600 /etc/hocvps/scripts.conf
 
