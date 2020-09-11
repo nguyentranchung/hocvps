@@ -357,7 +357,7 @@ error_log  /var/log/nginx/error.log warn;
 pid        /var/run/nginx.pid;
 
 events {
-	worker_connections  $worker_connections;
+	worker_connections $worker_connections;
 	accept_mutex off;
 	accept_mutex_delay 200ms;
 	use epoll;
@@ -499,7 +499,7 @@ server {
 
 	location /nginx_status {
   		stub_status on;
-  		access_log   off;
+  		access_log  off;
 		allow 127.0.0.1;
 		allow $server_ip;
 		deny all;
