@@ -612,32 +612,16 @@ systemctl restart nginx.service
 cp /etc/my.cnf /etc/my.cnf-original
 
 if [[ "$(expr $server_ram_total \<= 2099000)" = "1" ]]; then
-    # echo -e "\nCopying MariaDB my-mdb10-min.cnf file to /etc/my.cnf\n"
     /usr/bin/cp /config/mysql/my-mdb10-min.cnf /etc/my.cnf
-fi
-
-if [[ "$(expr $server_ram_total \> 2100001)" = "1" && "$(expr $server_ram_total \<= 4190000)" = "1" ]]; then
-    # echo -e "\nCopying MariaDB my-mdb10.cnf file to /etc/my.cnf\n"
+elif [[ "$(expr $server_ram_total \> 2100001)" = "1" && "$(expr $server_ram_total \<= 4190000)" = "1" ]]; then
     /usr/bin/cp /config/mysql/my-mdb10.cnf /etc/my.cnf
-fi
-
-if [[ "$(expr $server_ram_total \>= 4190001)" = "1" && "$(expr $server_ram_total \<= 8199999)" = "1" ]]; then
-    # echo -e "\nCopying MariaDB my-mdb10-4gb.cnf file to /etc/my.cnf\n"
+elif [[ "$(expr $server_ram_total \>= 4190001)" = "1" && "$(expr $server_ram_total \<= 8199999)" = "1" ]]; then
     /usr/bin/cp /config/mysql/my-mdb10-4gb.cnf /etc/my.cnf
-fi
-
-if [[ "$(expr $server_ram_total \>= 8200000)" = "1" && "$(expr $server_ram_total \<= 15999999)" = "1" ]]; then
-    # echo -e "\nCopying MariaDB my-mdb10-8gb.cnf file to /etc/my.cnf\n"
+elif [[ "$(expr $server_ram_total \>= 8200000)" = "1" && "$(expr $server_ram_total \<= 15999999)" = "1" ]]; then
     /usr/bin/cp /config/mysql/my-mdb10-8gb.cnf /etc/my.cnf
-fi
-
-if [[ "$(expr $server_ram_total \>= 16000000)" = "1" && "$(expr $server_ram_total \<= 31999999)" = "1" ]]; then
-    # echo -e "\nCopying MariaDB my-mdb10-16gb.cnf file to /etc/my.cnf\n"
+elif [[ "$(expr $server_ram_total \>= 16000000)" = "1" && "$(expr $server_ram_total \<= 31999999)" = "1" ]]; then
     /usr/bin/cp /config/mysql/my-mdb10-16gb.cnf /etc/my.cnf
-fi
-
-if [[ "$(expr $server_ram_total \>= 32000000)" = "1" ]]; then
-    # echo -e "\nCopying MariaDB my-mdb10-32gb.cnf file to /etc/my.cnf\n"
+elif [[ "$(expr $server_ram_total \>= 32000000)" = "1" ]]; then
     /usr/bin/cp /config/mysql/my-mdb10-32gb.cnf /etc/my.cnf
 fi
 
