@@ -1,36 +1,38 @@
+## Giới thiệu HocVPS
+
 **HocVPS Script** là 1 bash script chạy trên SSH sẽ tự động cài đặt tất cả các thành phần cần thiết nhất cho VPS với một dòng lệnh duy nhất.
 
-Không như những [Control Panel](https://hocvps.com/control-panels/) khác, HocVPS Script không hề sử dụng bất kỳ tài nguyên server (CPU, RAM) và không thể mắc lỗi bảo mật nào để hacker khai thác được nên các bạn có thể hoàn toàn yên tâm sử dụng.
+Không như những Control Panel khác, HocVPS Script không hề sử dụng bất kỳ tài nguyên server (CPU, RAM) và không thể mắc lỗi bảo mật nào để hacker khai thác được nên các bạn có thể hoàn toàn yên tâm sử dụng.
 
 Ngoài ra, webserver sẽ được tự động tối ưu cấu hình để đảm bảo có hiệu suất hoạt động tốt nhất, bảo mật nhất. Ngay cả những bạn mới làm quen với VPS cũng có thể quản lý VPS thông qua menu dòng lệnh đơn giản, gọi bằng lệnh `hocvps`
 
 [![](https://hocvps.com/wp-content/uploads/2016/04/HocVPS-Script-v2.0.png)](https://hocvps.com/wp-content/uploads/2016/04/HocVPS-Script-v2.0.png)
 
-**HocVPS Script sẽ tự động cài đặt:**
+## HocVPS Script sẽ tự động cài đặt:
 
 *   Webserver Nginx bản mới nhất.
 *   Database MariaDB bản mới nhất 10.0 (chính là MySQL được tối ưu).
-*   PHP phiên bản mới nhất tùy chọn: PHP 7.3, PHP 7.2, PHP 7.1, PHP 7.0, PHP 5.6; đi kèm [Zend OPcache](https://hocvps.com/cai-dat-va-cau-hinh-php-zend-opcache/)
+*   PHP phiên bản mới nhất tùy chọn: PHP 7.4, PHP 7.3, PHP 7.2, PHP 7.1, PHP 7.0, PHP 5.6; đi kèm [Zend OPcache](https://hocvps.com/cai-dat-va-cau-hinh-php-zend-opcache/)
 *   [phpMyAdmin](https://www.phpmyadmin.net/) mới nhất.
 *   [eXtplorer](https://hocvps.com/extplorer/) mới nhất để quản lý File Manager, có thể tạo user, phân quyền riêng biệt.
 
-**Những tính năng đặc biệt:**
+## Tính năng trên HocVPS:
 
 1.  Thông tin cài đặt đơn giản, chỉ cần lựa chọn phiên bản PHP, tên miền chính và port admin là đủ.
 2.  Sử dụng Nginx repo thay vì compile từ source như những script khác giúp việc cài đặt Nginx nhanh hơn, sau này có nâng cấp cũng dễ dàng hơn rất nhiều.
 3.  Thay thế MySQL bằng MariaDB cho kịp xu hướng (đây là phiên bản cải tiến từ MySQL, hoạt động tương tự nhưng cho hiệu suất cao hơn MySQL; ngoài ra phiên bản mới nhất CentOS 7 chính thức đã hỗ trợ MariaDB).
 4.  Tương thích với cả **CentOS 6 và CentOS 7**, cả 32bit lẫn 64bit chơi hết. Lưu ý **chưa dùng được trên CentOS 8**.
-5.  Tùy chọn sử dụng cài đặt phiên bản PHP 7.3 (mới nhất), PHP 7.2, PHP 7.1, PHP 7.0, PHP 5.6.
+5.  Tùy chọn sử dụng cài đặt phiên bản PHP 7.4 (mới nhất), PHP 7.3, PHP 7.2, PHP 7.1, PHP 7.0, PHP 5.6.
 6.  Có trình quản lý File Manager eXtplorer trực tiếp ngay trên web.
 7.  Tự động cài đặt module Zend Opcache và có thể theo dõi status ngay trên web.
 8.  Sử dụng được với cả domain www và non-www, tự động redirect giúp bạn.
 9.  Update tự động cho Nginx, PHP, MariaDB.
 10.  Theo dõi tình trạng server ngay trên web, có thể sử dụng mobile truy cập mọi nơi.
-11.  [Thay đổi port SSH](https://hocvps.com/cac-buoc-thay-doi-ssh-port-cua-server/) mặc định từ 22 sang 2222 hạn chế SSH Brute Force Attack, kèm theo [Fail2ban](https://hocvps.com/cai-dat-fail2ban-tren-centos/) block IP ngay nếu phát hiện login sai 3 lần (áp dụng cả SSH và HocVPS Script Admin).
+11.  [Thay đổi port SSH](https://hocvps.com/cac-buoc-thay-doi-ssh-port-cua-server/) mặc định từ 22 sang ngẫu nhiên hạn chế SSH Brute Force Attack, kèm theo [Fail2ban](https://hocvps.com/cai-dat-fail2ban-tren-centos/) block IP ngay nếu phát hiện login sai 3 lần (áp dụng cả SSH và HocVPS Script Admin).
 12.  Toàn bộ thông tin quản lý sẽ được lưu trong file text ở `/root/hocvps-script.txt`
 13.  Tham khảo thêm tính năng mới trong [Changelog](https://github.com/nguyentranchung/hocvps/blob/master/CHANGELOG.md).
 
-**Yêu cầu hệ thống:**
+## Yêu cầu hệ thống:
 
 1.  RAM: tối thiểu 512MB
 2.  Nên tạo [swap](https://hocvps.com/swap/) trước khi cài (nếu sử dụng ổ cứng SSD hoặc RAID10)
@@ -39,7 +41,7 @@ Trước khi tiến hành cài đặt, bạn cần nắm một số kiến th�
 
 ## Cài đặt HocVPS Script
 
-Đầu tiên các bạn cần chuẩn bị một **VPS mới tinh** bằng cách _Reinstall_ hoặc _Rebuild_, sử dụng CentOS 6 hoặc CentOS 7, bản 32bit hoặc 64bit đều được. Nên sử dụng bản **CentOS 7 x64 với PHP 7.3.**
+Đầu tiên các bạn cần chuẩn bị một **VPS mới tinh** bằng cách _Reinstall_ hoặc _Rebuild_, sử dụng CentOS 6 hoặc CentOS 7, bản 32bit hoặc 64bit đều được. Nên sử dụng bản **CentOS 7 x64 với PHP 7.4.**
 
 Kết nối SSH sử dụng [ZOC Terminal](https://hocvps.com/huong-dan-dung-zoc-terminal-ket-noi-ssh/) hoặc [Putty](https://hocvps.com/huong-dan-dang-nhap-vps-su-dung-putty-windows/) với tài khoản `root`. Nếu tài khoản không có quyền root cần cấp quyền bằng cách chạy lệnh `sudo su`.  
 Chạy lệnh sau để tiến hành cài đặt:
@@ -48,20 +50,20 @@ Chạy lệnh sau để tiến hành cài đặt:
 curl -sO https://raw.githubusercontent.com/nguyentranchung/hocvps/master/install && bash install
 ```
 
-– Cài đặt xong, khi connect SSH VPS bạn hãy sử dụng port 2222, không dùng port 22!  
+– Cài đặt xong, khi connect SSH VPS bạn hãy sử dụng port ngẫu nhiên nhận được, không dùng port 22!  
 – HocVPS Script không hoạt động trên VPS chỉ có IPv6 (gói $2.5 của Vultr)  
 
 _\*\*\*Nếu muốn cài đặt luôn WordPress, hãy tham khảo [script tự động cài đặt HocVPS Script và WordPress](https://hocvps.com/auto-install-hocvps-script-wordpress/)._
 
 _\*\*\*Học VPS có **[dịch vụ cài đặt VPS/Server](https://hocvps.com/dich-vu/)**, nếu không muốn mất thời gian bạn hãy sử dụng cho chuyên nghiệp._
 
-**Chuẩn bị quá trình cài đặt**
+## Chuẩn bị quá trình cài đặt
 
 [![](https://hocvps.com/wp-content/uploads/2016/04/Chuan-bi-cai-dat-HocVPS-Script-1.8.png)](https://hocvps.com/wp-content/uploads/2016/04/Chuan-bi-cai-dat-HocVPS-Script-1.8.png)
 
 Trong bước này bạn cần lựa chọn:
 
-1.  **Phiên bản PHP** muốn sử dụng: nên dùng **PHP 7.3**, có hiệu suất gấp 3 lần so với phiên bản cũ 7.1.
+1.  **Phiên bản PHP** muốn sử dụng: nên dùng **PHP mới nhất** để có hiệu suất tốt hơn so với các phiên bản cũ.
 2.  **Tên miền chính** sử dụng với VPS, có thể nhập có www hoặc không có www tùy mục đích sử dụng, script sẽ tự động redirect giúp bạn.
 3.  **Port admin quản lý server**: là port bí mật (nằm trong khoảng 2000 – 9999, thay đổi được sau khi cài) dùng để:
     *   Truy cập link quản trị, có dạng: http://domain.com:port/
@@ -86,17 +88,16 @@ HocVPS Menu được sử dụng qua lệnh `hocvps` trên SSH Terminal.
 Sau khi cài đặt xong HocVPS Script, bạn có thể sử dụng [sFTP](https://hocvps.com/huong-dan-ket-noi-sftp-bang-filezilla/) để quản lý File, upload code lên thư mục `/home/domain.com/public_html/` đồng thời trỏ tên miền về IP VPS và bắt đầu sử dụng.  
 _Lưu ý: Sau khi upload source lên thư mục web, các bạn sử dụng `hocvps` menu 14 Phân Quyền Webserver để Nginx đọc được nội dung website._
 
-Nếu muốn kết nối SSH bạn hãy sử dụng port 2222.
+Nếu muốn kết nối SSH bạn hãy sử dụng port nhận được ngẫu nhiên khi cài.
 
 Trong quá trình sử dụng, đang ở bất kỳ chức năng nào bạn cũng có thể nhấn Ctrl + C sẽ thoát khỏi Script ngay lập tức.
 
-**Bảo mật an toàn tuyệt đối**
+## Bảo mật an toàn tuyệt đối
 
 Mình luôn đặt vấn đề bảo mật và sự đơn giản lên hàng đầu nên từ phiên bản HocVPS Script v1.6 sẽ bổ sung thêm một lớp bảo mật nữa khi truy cập các link có chứa port. Bạn có thể thay đổi password này cho dễ nhớ hơn khi truy cập link quản trị _http://domain.com:port/_.
 
 Username mặc định cho tất cả các tool là _admin_, password tự động sinh ra sau khi cài đặt xong server. Nếu bạn nhập sai thông tin quá 3 lần, IP sẽ tự động bị block trong 1h. Nâng thêm thời gian theo [hướng dẫn này](https://hocvps.com/cai-dat-fail2ban-tren-centos/).
 
-  
 – Cloudflare CDN chặn truy cập qua port bất thường nên domain sử dụng CDN Cloudflare(đám mây vàng) cần tắt CDN để truy cập domain:port. Nếu không, chỉ truy cập qua ip:port  
 – Cài đặt xong HocVPS Script, các bạn nên thiết lập luôn [Script backup tự động](https://hocvps.com/rclone/) nhằm đảm bảo an toàn cho data và database.  
 – HocVPS Script hoạt động rất tốt với WordPress, Joomla, Magento, PrestaShop, Xenforo (đã trực tiếp test)
@@ -110,7 +111,6 @@ Username mặc định cho tất cả các tool là _admin_, password tự độ
 5.  [Tự động cài đặt HocVPS Script và WordPress](https://hocvps.com/auto-install-hocvps-script-wordpress/)
 6.  [Script tự động tải và cài đặt WordPress trên VPS](https://hocvps.com/script-tu-dong-tai-va-cai-dat-wordpress-tren-vps/)
 7.  [Hướng dẫn config VPS chịu tải lớn với HocVPS Script 4k3 online trên VPS 2GB RAM](https://hocvps.com/huong-dan-config-vps-chiu-tai-lon-voi-hocvps-script/)
-8.  [Cách xử lý lỗi: Couldn’t resolve host](Couldn’t resolve host ‘mirrorlist.centos.org’)
 
 ## Một số vấn đề có thể gặp phải
 
@@ -191,12 +191,3 @@ Mặc định, HocVPS Script đã mở các port cần thiết: SSH(2222), HTTP/
 Đối với Google Cloud, tạo **rule allow** trong **Network**–**default** như hình dưới để áp dụng mặc định cho toàn bộ VPS trong tài khoản.  
 [![](https://hocvps.com/wp-content/uploads/2017/05/GG-Add-Port.png)](https://hocvps.com/wp-content/uploads/2017/05/GG-Add-Port.png)  
 Đối với EC2, bạn chỉnh ở mục `NETWORK&SECURITY - Security Groups - Inbound`. Tương tự, bạn cần mở thủ công port HTTPS(443), FTP… nếu cần.
-
-### Bài viết liên quan:
-
-1.  [Cài đặt VPSSIM quản lý VPS đơn giản](https://hocvps.com/cai-dat-vpssim-quan-ly-vps-don-gian/ "Cài đặt VPSSIM quản lý VPS đơn giản")
-2.  [\[HocVPS Script Plugin\] – Tự động sao lưu toàn bộ website WordPress](https://hocvps.com/hocvps-script-plugin-backup-all-wordpress-sites/ "[HocVPS Script Plugin] – Tự động sao lưu toàn bộ website WordPress")
-3.  [Reset password quản lý server HocVPS Script](https://hocvps.com/reset-password-hocvps-admin/ "Reset password quản lý server HocVPS Script")
-4.  [Nâng cấp PHP 7 với server sử dụng HocVPS Script](https://hocvps.com/nang-cap-php-7-hocvps-script/ "Nâng cấp PHP 7 với server sử dụng HocVPS Script")
-5.  [Cài đặt chứng chỉ Let’s Encrypt SSL trên server HocVPS Script](https://hocvps.com/cai-dat-lets-encrypt/ "Cài đặt chứng chỉ Let’s Encrypt SSL trên server HocVPS Script")
-6.  [Script tự động cài đặt HocVPS Script và WordPress](https://hocvps.com/auto-install-hocvps-script-wordpress/ "Script tự động cài đặt HocVPS Script và WordPress")
