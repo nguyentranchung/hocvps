@@ -196,7 +196,7 @@ sleep 3
 # Autostart
 systemctl enable nginx.service
 systemctl enable php-fpm.service
-systemctl enable mysql.service
+systemctl enable mysql.service # Failed to execute operation: No such file or directory
 systemctl enable fail2ban.service
 systemctl enable iptables.service
 systemctl enable ip6tables.service
@@ -228,22 +228,18 @@ if [ "$check_phplowmem" == "1" ]; then
 fi
 
 if [[ "$lessphpmem" = [yY] ]]; then
+    # echo -e "\nCopying php-fpm-min.conf /etc/php-fpm.d/www.conf\n"
     /usr/bin/cp $ROOT_FOLDER/config/php-fpm/php-fpm-min.conf /etc/php-fpm.conf
     /usr/bin/cp $ROOT_FOLDER/config/php-fpm/www-min.conf /etc/php-fpm.d/www.conf
 else
+    # echo -e "\nCopying php-fpm.conf /etc/php-fpm.d/www.conf\n"
     /usr/bin/cp $ROOT_FOLDER/config/php-fpm/php-fpm.conf /etc/php-fpm.conf
     /usr/bin/cp $ROOT_FOLDER/config/php-fpm/www.conf /etc/php-fpm.d/www.conf
-fi
-
-min_spare_server=`expr $cpu_cores \* 2`
-max_spare_server=`expr $cpu_cores \* 4`
-
+fi # lessphpmem
 
 sed -i "s/server_name_here/$server_name/g" /etc/php-fpm.conf
 sed -i "s/server_name_here/$server_name/g" /etc/php-fpm.d/www.conf
 sed -i "s/max_children_here/$max_children/g" /etc/php-fpm.d/www.conf
-sed -i "s/min_spare_server_here/$min_spare_server/g" /etc/php-fpm.d/www.conf
-sed -i "s/max_spare_server_here/$max_spare_serve/g" /etc/php-fpm.d/www.conf
 
 # dynamic PHP memory_limit calculation
 if [[ "$server_ram_total" -le '262144' ]]; then
@@ -361,7 +357,7 @@ error_log  /var/log/nginx/error.log warn;
 pid        /var/run/nginx.pid;
 
 events {
-	worker_connections $worker_connections;
+	worker_connections  $worker_connections;
 	accept_mutex off;
 	accept_mutex_delay 200ms;
 	use epoll;
@@ -503,7 +499,7 @@ server {
 
 	location /nginx_status {
   		stub_status on;
-  		access_log  off;
+  		access_log   off;
 		allow 127.0.0.1;
 		allow $server_ip;
 		deny all;
@@ -616,16 +612,32 @@ systemctl restart nginx.service
 cp /etc/my.cnf /etc/my.cnf-original
 
 if [[ "$(expr $server_ram_total \<= 2099000)" = "1" ]]; then
+    # echo -e "\nCopying MariaDB my-mdb10-min.cnf file to /etc/my.cnf\n"
     /usr/bin/cp /config/mysql/my-mdb10-min.cnf /etc/my.cnf
-elif [[ "$(expr $server_ram_total \> 2100001)" = "1" && "$(expr $server_ram_total \<= 4190000)" = "1" ]]; then
+fi
+
+if [[ "$(expr $server_ram_total \> 2100001)" = "1" && "$(expr $server_ram_total \<= 4190000)" = "1" ]]; then
+    # echo -e "\nCopying MariaDB my-mdb10.cnf file to /etc/my.cnf\n"
     /usr/bin/cp /config/mysql/my-mdb10.cnf /etc/my.cnf
-elif [[ "$(expr $server_ram_total \>= 4190001)" = "1" && "$(expr $server_ram_total \<= 8199999)" = "1" ]]; then
+fi
+
+if [[ "$(expr $server_ram_total \>= 4190001)" = "1" && "$(expr $server_ram_total \<= 8199999)" = "1" ]]; then
+    # echo -e "\nCopying MariaDB my-mdb10-4gb.cnf file to /etc/my.cnf\n"
     /usr/bin/cp /config/mysql/my-mdb10-4gb.cnf /etc/my.cnf
-elif [[ "$(expr $server_ram_total \>= 8200000)" = "1" && "$(expr $server_ram_total \<= 15999999)" = "1" ]]; then
+fi
+
+if [[ "$(expr $server_ram_total \>= 8200000)" = "1" && "$(expr $server_ram_total \<= 15999999)" = "1" ]]; then
+    # echo -e "\nCopying MariaDB my-mdb10-8gb.cnf file to /etc/my.cnf\n"
     /usr/bin/cp /config/mysql/my-mdb10-8gb.cnf /etc/my.cnf
-elif [[ "$(expr $server_ram_total \>= 16000000)" = "1" && "$(expr $server_ram_total \<= 31999999)" = "1" ]]; then
+fi
+
+if [[ "$(expr $server_ram_total \>= 16000000)" = "1" && "$(expr $server_ram_total \<= 31999999)" = "1" ]]; then
+    # echo -e "\nCopying MariaDB my-mdb10-16gb.cnf file to /etc/my.cnf\n"
     /usr/bin/cp /config/mysql/my-mdb10-16gb.cnf /etc/my.cnf
-elif [[ "$(expr $server_ram_total \>= 32000000)" = "1" ]]; then
+fi
+
+if [[ "$(expr $server_ram_total \>= 32000000)" = "1" ]]; then
+    # echo -e "\nCopying MariaDB my-mdb10-32gb.cnf file to /etc/my.cnf\n"
     /usr/bin/cp /config/mysql/my-mdb10-32gb.cnf /etc/my.cnf
 fi
 
@@ -882,6 +894,9 @@ PHP OPcache:         http://$server_name:$admin_port/op.php hoac http://$server_
 Thong tin dang nhap mac dinh cho tat ca tool:
 Username: admin
 Password: $admin_password
+
+Thong tin dang nhap mysql:
+Mysql Root Password: $mariadb_root_password
 
 Neu can ho tro, cac ban hay truy cap https://hocvps.com/script/
 END
