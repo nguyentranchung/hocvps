@@ -1,0 +1,35 @@
+#!/bin/bash
+
+. /etc/hocvps/scripts.conf
+
+printf "=========================================================================\n"
+printf "                             Auto SSL\n"
+printf "=========================================================================\n"
+
+
+echo -n "Nhap vao domain ban muon cai (gia han) SSL roi an [ENTER]: "
+read domain
+
+if [ "$domain" = "$server_name" ]; then
+    echo "Ban khong the cai SSL cho domain chinh tren server !!!!"
+    echo "Chao tam biet...!"
+    exit
+fi
+
+if [ -f /etc/nginx/conf.d/$domain.conf ]; then
+    read -r -p "Da phat hien thay $domain, ban co chac muon cai SSL cho no khong ? [y/N] " response
+    case $response in
+    [yY][eE][sS] | [yY])
+        sudo certbot -d $domain
+
+        echo "SSL thiet lap domain thanh cong...!"
+        ;;
+    *)
+        echo "Chao tam biet....!"
+        ;;
+    esac
+else
+    echo "Khong phat hien thay $domain, vui long kiem tra lai!"
+    echo "Chao tam biet....!"
+    exit
+fi
