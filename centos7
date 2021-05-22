@@ -723,7 +723,7 @@ if [ "$email_ssl" = "" ]; then
     email_ssl="$server_name@yopmail.com"
     echo "Ban nhap sai, he thong dung $email_ssl lam ten mien chinh"
 fi
-certbot register -m $email_ssl
+certbot register -m $email_ssl --noninteractive
 
 print_message "Cai dat autossl hoan tat"
 

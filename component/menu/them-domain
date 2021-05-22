@@ -117,14 +117,17 @@ nginx -s reload
 
 echo "$domain da duoc them thanh cong vao server !"
 
-read -r -p "Ban co muon cai SSL cho $domain khong? [y/N] " response
-case $response in [yY][eE][sS] | [yY])
-     sudo certbot --nginx -d $domain --noninteractive
+read -r -p "Ban co muon cai SSL cho $domain khong?[y/N] " response
+    case $response in
+    [yY][eE][sS] | [yY])
+        sudo certbot --nginx -d $domain --noninteractive
 
-     echo "SSL thiet lap domain thanh cong...!"
-*)
-    echo "Exit."
-    ;;
-esac
+        echo "SSL thiet lap domain thanh cong...!"
+        ;;
+    *)
+        echo "Chao tam biet....!"
+        ;;
+    esac
+
 echo "Upload code len /home/$domain/public_html/"
 echo "Xem logs cua $domain tai /home/$domain/logs"
