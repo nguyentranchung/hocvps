@@ -119,7 +119,9 @@ echo "$domain da duoc them thanh cong vao server !"
 
 read -r -p "Ban co muon cai SSL cho $domain khong? [y/N] " response
 case $response in [yY][eE][sS] | [yY])
-    sudo certbot -d $domain
+     sudo certbot --nginx -d $domain --noninteractive
+
+     echo "SSL thiet lap domain thanh cong...!"
 *)
     echo "Exit."
     ;;

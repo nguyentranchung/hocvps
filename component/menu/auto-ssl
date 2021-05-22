@@ -20,7 +20,7 @@ if [ -f /etc/nginx/conf.d/$domain.conf ]; then
     read -r -p "Da phat hien thay $domain, ban co chac muon cai SSL cho no khong ? [y/N] " response
     case $response in
     [yY][eE][sS] | [yY])
-        sudo certbot -d $domain
+        sudo certbot --nginx -d $domain --noninteractive
 
         echo "SSL thiet lap domain thanh cong...!"
         ;;
