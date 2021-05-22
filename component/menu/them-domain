@@ -121,8 +121,6 @@ read -r -p "Ban co muon cai SSL cho $domain khong?[y/N] " response
     case $response in
     [yY][eE][sS] | [yY])
         sudo certbot --nginx -d $domain --noninteractive
-
-        echo "SSL thiet lap domain thanh cong...!"
         ;;
     *)
         echo "Chao tam biet....!"

@@ -21,8 +21,6 @@ if [ -f /etc/nginx/conf.d/$domain.conf ]; then
     case $response in
     [yY][eE][sS] | [yY])
         sudo certbot --nginx -d $domain --noninteractive
-
-        echo "SSL thiet lap domain thanh cong...!"
         ;;
     *)
         echo "Chao tam biet....!"
