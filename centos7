@@ -705,7 +705,7 @@ fi
 clear
 print_message "Bat dau cai dat autossl"
 
-sudo yum install snapd
+sudo yum install snapd -y
 
 if service --status-all | grep -Fq 'snapd'; then
     sudo systemctl enable --now snapd.socket
@@ -718,7 +718,7 @@ if service --status-all | grep -Fq 'snapd'; then
     sudo snap install --classic certbot
     sudo ln -s /snap/bin/certbot /usr/bin/certbot
 
-    print_message "Nhap vao email dang ky autossl roi an [ENTER]: "
+    echo -n "Nhap vao email dang ky autossl roi an [ENTER]: "
     read email_ssl
     if [ "$email_ssl" = "" ]; then
         email_ssl="$server_name@yopmail.com"
