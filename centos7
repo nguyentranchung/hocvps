@@ -703,6 +703,32 @@ if [ "$1" = "wordpress" ]; then
 fi
 
 clear
+print_message "Bat dau cai dat autossl"
+
+sudo yum install snapd -y
+
+sudo systemctl enable --now snapd.socket
+sudo ln -s /var/lib/snapd/snap /snap
+# Install snap core
+sudo snap install core
+sudo snap refresh core
+
+# Install certbot
+sudo snap install --classic certbot
+sudo ln -s /snap/bin/certbot /usr/bin/certbot
+
+echo -n "Nhap vao email dang ky autossl roi an [ENTER]: "
+read email_ssl
+if [ "$email_ssl" = "" ]; then
+    email_ssl="$server_name@yopmail.com"
+    echo "Ban nhap sai, he thong dung $email_ssl lam ten mien chinh"
+fi
+certbot register -m $email_ssl --noninteractive
+
+print_message "Cai dat autossl hoan tat"
+
+
+clear
 print_message "Hoan tat qua trinh cau hinh..."
 # HocVPS Script Admin
 /usr/bin/cp -rf $ROOT_FOLDER/package/administrator/* rm -rf /home/$server_name/private_html/

@@ -4,7 +4,7 @@
 
 clear
 prompt="Nhap vao lua chon menu cua ban:"
-options=("Liet Ke Domain" "Them Domain" "Xoa Domain" "Sao Luu Code" "Sao Luu Data" "Tu Dong Sao Luu" "Tat Tu Dong Sao Luu" "Tao Database" "Xoa Database" "Doi Pass VPS" "Doi Port Admin" "Them Park Domain" "Them Redirect Domain" "Phan Quyen Webserver" "Nang Cap Server") # End Options
+options=("Liet Ke Domain" "Them Domain" "Xoa Domain" "Sao Luu Code" "Sao Luu Data" "Tu Dong Sao Luu" "Tat Tu Dong Sao Luu" "Tao Database" "Xoa Database" "Doi Pass VPS" "Doi Port Admin" "Them Park Domain" "Them Redirect Domain" "Phan Quyen Webserver" "Nang Cap Server" "Auto SSL") # End Options
 
 printf "=========================================================================\n"
 printf "               HocVPS Script v$hocvps_version - http://hocvps.com/script/ \n"
@@ -30,6 +30,7 @@ select opt in "${options[@]}" "Thoat"; do
     13) /etc/hocvps/menu/forward-domain ;;
     14) /etc/hocvps/menu/phan-quyen-webserver ;;
     15) /etc/hocvps/menu/nang-cap-server ;;
+    16) /etc/hocvps/menu/auto-ssl ;;
         # End Menu
 
     $((${#options[@]} + 1)))
