@@ -1,3 +1,11 @@
+## Sponsor by FlashVPS Panel - dịch vụ quản lý máy chủ chuyên nghiệp
+
+<img width="1728" alt="Screen Shot 2022-10-25 at 11 29 18" src="https://user-images.githubusercontent.com/9611224/197667971-05ddf2d5-00ac-41ea-8489-9ee48e04f4ed.png">
+
+FlashVPS là một **dịch vụ quản lý máy chủ đám mây** cho phép bạn duy trì toàn quyền kiểm soát các máy chủ của mình và triển khai, vận hành nhiều trang web với cấu hình nhanh chóng và dễ dàng.
+
+Với FlashVPS, bạn không cần phải là một chuyên gia Linux để triển khai, vận hành trang web của mình, FlashVPS hỗ trợ nhiều nhà cung cấp máy chủ trong nước và nước ngoài như **Vultr**, **DigitalOcean**, **Linode**, **Upcloud**, **Google Cloud**, **Hetzner**,... hoặc máy chủ của riêng bạn. FlashVPS hỗ trợ tất cả các ứng dụng web PHP (**WordPress**, **WooCommerce**, **Laravel**) và cả NodeJS (**NuxtJS**, **NextJS**, **NestJS**).
+
 ## Giới thiệu HocVPS
 
 **HocVPS Script** là 1 bash script chạy trên SSH sẽ tự động cài đặt tất cả các thành phần cần thiết nhất cho VPS với một dòng lệnh duy nhất.
